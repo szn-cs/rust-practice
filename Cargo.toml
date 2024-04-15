@@ -1,0 +1,11 @@
+[package]
+name = "data-structure"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+members = ["singly_linked_list", "singly_linked_list_2"]
+
+[dependencies]
+singly_linked_list = { path = "singly_linked_list" }
+singly_linked_list_2 = { path = "singly_linked_list_2" }

@@ -1,0 +1,13 @@
+{
+    "editor.inlineSuggest.suppressSuggestions": true,
+    "editor.inlineSuggest.enabled": false,
+    "editor.inlineSuggest.showToolbar": "never",
+    "editor.snippetSuggestions": "none",
+    "editor.inlayHints.enabled": "offUnlessPressed",
+    "editor.wordBasedSuggestions": "off",
+    "editor.quickSuggestions": {
+        "other": false,
+        "comments": false,
+        "strings": false
+    }
+}
