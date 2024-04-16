@@ -6,6 +6,7 @@
 //!
 
 use std::cell::RefCell; // allow multiple owners & allocate target on the heap (single-threaded).
+use std::iter::{IntoIterator, Iterator};
 use std::option::Option;
 use std::rc::Rc; // provides interior mutability for encapsulated structures.
 
@@ -61,6 +62,10 @@ impl SinglyLinkedList {
                 .value
         })
     }
+
+    pub fn iter(&self) -> ListIterator {
+        ListIterator::new(self.head.clone())
+    }
 }
 
 impl Node {
@@ -69,5 +74,44 @@ impl Node {
             value,
             next: Option::None,
         }))
+    }
+}
+
+pub struct ListIterator {
+    current: Option<Link>,
+}
+
+impl ListIterator {
+    fn new(start_at: Option<Link>) -> Self {
+        ListIterator { current: start_at }
+    }
+}
+
+impl Iterator for ListIterator {
+    type Item = String;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let mut result = Option::None;
+        let current = &self.current;
+
+        self.current = match current {
+            Some(ref n) => {
+                let n = n.borrow();
+                result = Some(n.value.clone());
+                n.next.clone()
+            }
+            None => None,
+        };
+
+        result
+    }
+}
+
+impl IntoIterator for SinglyLinkedList {
+    type Item = String;
+    type IntoIter = ListIterator;
+
+    fn into_iter(self) -> Self::IntoIter {
+        ListIterator::new(self.head)
     }
 }
