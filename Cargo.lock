@@ -21,3 +21,6 @@ dependencies = [
 [[package]]
 name = "single_linked_list"
 version = "0.1.0"
+dependencies = [
+ "datastructure",
+]
