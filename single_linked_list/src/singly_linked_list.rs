@@ -1,6 +1,6 @@
-// mod concept_cell;
-// mod concept_inherit_mutability;
-// mod concept_refcell;
+// mod cell;
+// mod inherit_mutability;
+// mod refcell;
 
 use std::cell::RefCell;
 use std::option::Option;

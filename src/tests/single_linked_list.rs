@@ -1,4 +1,4 @@
-use singly_linked_list::SingleLinkedList as L;
+use single_linked_list::singly_linked_list::SingleLinkedList as L;
 
 #[test]
 fn append() {

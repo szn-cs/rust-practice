@@ -1,4 +1,4 @@
-use singly_linked_list_2::SinglyLinkedList as L;
+use single_linked_list::singly_linked_list_2::SinglyLinkedList as L;
 
 use std::option;
 
