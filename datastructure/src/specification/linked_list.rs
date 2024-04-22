@@ -1,4 +1,5 @@
 use std::iter::{IntoIterator, Iterator};
+use std::ops::Fn;
 use std::option::Option;
 
 /**
@@ -20,7 +21,8 @@ pub trait SingleLinkedList: IntoIterator {
     fn pop(&mut self) -> Option<Self::Data>; // delete from tail
 
     // traversal
-    // fn into_iter(self) -> Self::IntoIter /* Iterator<Iterm> */; // used for consuming, reference, mutation
+    // fn into_iter(self) -> Self::IntoIter /* Iterator<Iterm> */; // provides external iteration; used for consuming, reference, mutation
+    fn traverse(&self, f: impl Fn(&Self::Data)); // internal iteration
 }
 
 pub mod minimal {
@@ -30,6 +32,6 @@ pub mod minimal {
         // fields: head, len
 
         fn push(&mut self, data: Self::Data);
-        fn pop(&mut self);
+        fn pop(&mut self) -> Option<Self::Data>;
     }
 }

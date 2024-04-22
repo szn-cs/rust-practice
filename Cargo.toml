@@ -9,3 +9,4 @@ members = ["concept", "datastructure", "single_linked_list"]
 [dependencies]
 single_linked_list = { path = "single_linked_list" }
 concept = { path = "concept" }
+datastructure = { path = "datastructure" }
