@@ -1,4 +1,4 @@
-use std::cell::{RefCell, RefMut};
+use std::cell::{Ref, RefCell, RefMut};
 use std::clone::Clone;
 use std::iter::{IntoIterator, Iterator};
 use std::rc::Rc;
@@ -32,13 +32,13 @@ impl<T: Clone> SingleLinkedList<T> {
     }
 
     /*
-     pub fn traverse(&mut self, f: impl Fn(&T)) {
-         let mut c = self.head.as_ref();
-         while let Some(ref node) = c {
-             f(&node.borrow().value);
-             c = c
-             .map(|t| t.as_ref().borrow().next.clone().unwrap())
-             .as_ref();
+    // NOTE: relying on std::rc::Rc<std::cell::RefCell<_>> API is cumbersome and limited for the purpose of returning internal references data within RefCell; This approach is not well fitted for creating APIs that provide interior mutability to the users of the library.
+
+    pub fn traverse(&mut self, f: impl Fn(&T)) {
+        let mut c = self.head.map(|t| t.as_ref());
+        while let Some(ref node) = c {
+            f(&node.borrow().value);
+            c = c.map(|t| Ref::map(t.borrow(), |i| i.next.clone()));
         }
     }
     */
