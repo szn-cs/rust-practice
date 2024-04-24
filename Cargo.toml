@@ -3,6 +3,9 @@ name = "rust_practice"
 version = "0.1.0"
 edition = "2021"
 
+[toolchain]
+channel = "nightly"
+
 [workspace]
 members = ["concept", "datastructure", "single_linked_list"]
 

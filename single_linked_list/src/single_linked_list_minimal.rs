@@ -32,7 +32,7 @@ impl<T: Clone> SingleLinkedList<T> {
     }
 
     /*
-    // NOTE: relying on std::rc::Rc<std::cell::RefCell<_>> API is cumbersome and limited for the purpose of returning internal references data within RefCell; This approach is not well fitted for creating APIs that provide interior mutability to the users of the library.
+    // NOTE: relying on std::rc::Rc<std::cell::RefCell<_>> Rust safe API is cumbersome and limited for the purpose of returning internal references data within RefCell; This approach is not well fitted for creating APIs that provide interior mutability to the users of the library.
 
     pub fn traverse(&mut self, f: impl Fn(&T)) {
         let mut c = self.head.map(|t| t.as_ref());

@@ -6,6 +6,7 @@
 - https://github.com/TheAlgorithms/Rust/blob/master/DIRECTORY.md
 - https://github.com/PacktPublishing/Hands-On-Data-Structures-and-Algorithms-in-Rust/tree/master
 - https://rust-unofficial.github.io/too-many-lists/
+- https://www.youtube.com/watch?v=EF3Z4jdD1EQ
 
 
 ### Linked List
@@ -17,3 +18,6 @@
 
 ### Miscellaneous  
 - https://aloso.github.io/2021/03/09/creating-an-iterator#a-traverse-method
+- https://geo-ant.github.io/blog/2023/unsafe-rust-exploration/#fnref:safeapi
+- https://rustmagazine.org/issue-3/understand-unsafe-rust/
+- https://cliffle.com/p/dangerust/

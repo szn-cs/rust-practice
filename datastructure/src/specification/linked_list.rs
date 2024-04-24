@@ -13,11 +13,11 @@ pub trait SingleLinkedList: IntoIterator {
     // fields: head, tail, len;
 
     // insertion
-    fn insert(&mut self, data: Self::Data, position: usize);
+    fn insert_before_head(&mut self, data: Self::Data, position: usize);
     fn push(&mut self, data: Self::Data); // insert to head
 
     // deletion
-    fn remove(&mut self, position: usize) -> Option<Self::Data>;
+    fn remove_tail(&mut self, position: usize) -> Option<Self::Data>;
     fn pop(&mut self) -> Option<Self::Data>; // delete from tail
 
     // traversal
@@ -30,6 +30,7 @@ pub mod minimal {
         type Data;
 
         // fields: head, len
+        //         (No tail pointer)
 
         fn push(&mut self, data: Self::Data);
         fn pop(&mut self) -> Option<Self::Data>;
