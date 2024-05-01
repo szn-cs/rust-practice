@@ -25,6 +25,21 @@ pub trait SingleLinkedList: IntoIterator {
     fn traverse(&self, f: impl Fn(&Self::Data)); // internal iteration
 }
 
+pub trait DoubleLinkedList: IntoIterator {
+    type Data;
+
+    fn insert_at_beginning();
+    fn insert_at_end();
+    fn remove_at_beginning();
+    fn remove_at_end();
+
+    fn insert_after_node();
+    fn delete_node();
+
+    fn search();
+    fn traverse();
+}
+
 pub mod minimal {
     pub trait SingleLinkedList: IntoIterator {
         type Data;
@@ -34,5 +49,16 @@ pub mod minimal {
 
         fn push(&mut self, data: Self::Data);
         fn pop(&mut self) -> Option<Self::Data>;
+    }
+
+    pub trait DoubleLinkedList: IntoIterator {
+        type Data;
+
+        // fields: front, back, len
+
+        fn push_front(&mut self, elem: Self::Data);
+        fn push_back(&mut self, elem: Self::Data);
+        fn pop_front(&mut self) -> Option<Self::Data>;
+        fn pop_back(&mut self) -> Option<Self::Data>;
     }
 }

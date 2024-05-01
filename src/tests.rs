@@ -4,3 +4,5 @@ mod single_linked_list_3;
 mod single_linked_list_pointer;
 
 mod concept;
+
+mod double_linked_list;
