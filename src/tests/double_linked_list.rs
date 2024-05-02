@@ -1,9 +1,9 @@
-use datastructure::specification::linked_list::DoubleLinkedList;
+use datastructure::specification::linked_list::minimal::DoubleLinkedList as Spec;
 use single_linked_list::double_linked_list::DoubleLinkedList as LinkedList;
 
 #[test]
 fn comprehensive_double_linked_list() {
-    let mut l = LinkedList::new();
+    let mut l = LinkedList::<i32>::new();
 
     l.push_front(3);
     l.push_back(5);
@@ -15,7 +15,7 @@ fn comprehensive_double_linked_list() {
     assert_eq!(l.pop_front(), Some(1));
     assert_eq!(l.pop_back(), Some(7));
 
-    l.traverse(|v| {
-        *v = *v + 1;
+    l.traverse(|v: &mut i32| {
+        *v = *v + 10;
     });
 }

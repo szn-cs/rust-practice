@@ -50,12 +50,15 @@ where
             current = unsafe { node.as_mut().next };
         }
     }
-    // }
+}
 
-    // impl<T> Spec for DoubleLinkedList<T> {
-    //     type Data = T;
+impl<T> Spec for DoubleLinkedList<T>
+where
+    T: Display,
+{
+    type Data = T;
 
-    pub fn push_front(&mut self, item: T) {
+    fn push_front(&mut self, item: T) {
         let new = Box::new(Node {
             data: item,
             next: self.front,
@@ -77,7 +80,7 @@ where
         self.len += 1;
     }
 
-    pub fn push_back(&mut self, item: T) {
+    fn push_back(&mut self, item: T) {
         let new = Box::new(Node {
             data: item,
             next: None,
@@ -99,7 +102,7 @@ where
         self.len += 1;
     }
 
-    pub fn pop_front(&mut self) -> Option<T> {
+    fn pop_front(&mut self) -> Option<T> {
         self.front.map(|node| {
             let mut node = unsafe { Box::from_raw(node.as_ptr()) };
             let next = node.next.take();
@@ -119,7 +122,7 @@ where
         })
     }
 
-    pub fn pop_back(&mut self) -> Option<T> {
+    fn pop_back(&mut self) -> Option<T> {
         self.back.map(|node| {
             // len > 0
             let mut node = unsafe { Box::from_raw(node.as_ptr()) };
