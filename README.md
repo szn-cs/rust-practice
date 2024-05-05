@@ -21,3 +21,4 @@
 - https://geo-ant.github.io/blog/2023/unsafe-rust-exploration/#fnref:safeapi
 - https://rustmagazine.org/issue-3/understand-unsafe-rust/
 - https://cliffle.com/p/dangerust/
+- https://rust-lang.github.io/api-guidelines/about.html
