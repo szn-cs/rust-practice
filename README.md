@@ -7,7 +7,7 @@
 - https://github.com/PacktPublishing/Hands-On-Data-Structures-and-Algorithms-in-Rust/tree/master
 - https://rust-unofficial.github.io/too-many-lists/
 - https://www.youtube.com/watch?v=EF3Z4jdD1EQ
-
+- https://github.com/jonhoo https://www.youtube.com/@jonhoo 
 
 ### Linked List
 - https://betterprogramming.pub/learning-rust-building-a-linked-list-102bcb08f93b
@@ -22,3 +22,4 @@
 - https://rustmagazine.org/issue-3/understand-unsafe-rust/
 - https://cliffle.com/p/dangerust/
 - https://rust-lang.github.io/api-guidelines/about.html
+
