@@ -17,7 +17,7 @@ impl<K, V> Spec<K, V> for HashMap<K, V> {
         unimplemented!();
     }
 
-    fn get_mut(&mut self, key: &key) -> Option<&mut V> {
+    fn get_mut(&mut self, key: &K) -> Option<&mut V> {
         unimplemented!();
     }
 }

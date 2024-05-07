@@ -114,12 +114,13 @@ where
             new_bucket_list.push(LinkedList::new());
         }
 
-        for (key, value) in self
+        for e in self
             .bucket_list
-            .iter_mut()
+            .drain(..)
             .flat_map(|bucket| bucket.into_iter())
         {
-            let bucket = (key.hash() % self.bucket_list.capacity() as u64) as usize;
+            let (key, value) = e;
+            let bucket = (key.hash() % new_bucket_list.capacity() as u64) as usize;
             let bucket = &mut new_bucket_list[bucket];
             bucket.push_back((key, value));
         }
