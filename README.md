@@ -16,6 +16,14 @@
 - https://github.com/PacktPublishing/Hands-On-Data-Structures-and-Algorithms-in-Rust/blob/master/code/d3-linklists/v1-ll/src/v2_dbl.rs 
 - https://rust-unofficial.github.io/too-many-lists/sixth-final.html
 
+### Hashmap
+- https://github.com/PacktPublishing/Hands-On-Data-Structures-and-Algorithms-in-Rust/blob/master/code/d5-hashmap/src/lib.rs
+- https://github.com/TheAlgorithms/Rust/blob/master/src/data_structures/hash_table.rs
+- https://github.com/jonhoo/rust-basic-hashmap/blob/master/src/lib.rs
+- https://github.com/tsoding/rust-hash-table/blob/main/src/main.rs
+- https://github.com/jonhoo/rust-basic-hashmap
+
+
 ### Miscellaneous  
 - https://aloso.github.io/2021/03/09/creating-an-iterator#a-traverse-method
 - https://geo-ant.github.io/blog/2023/unsafe-rust-exploration/#fnref:safeapi

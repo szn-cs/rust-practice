@@ -7,12 +7,13 @@ std::boxed::Box;
 std::option::Option; 
 std::ptr::NonNull; 
 std::marker::PhantomData; 
-std::mem::{replace}
+std::mem::{replace, swap, take}
 
 std::ops::{Fn, FnMut, FnOnce}
 std::ops::{Drop}
+std::cmp::{Eq, PartialEq}
 
-std::fmt::{Display, Formatter};
+std::fmt::{Debug, Display, Formatter};
 
 ## Collections
 std::collections::{VecDeque, LinkedList, HashMap, BTreeMap, HashSet, BTreeSet, BinaryHeap};
@@ -21,7 +22,7 @@ std::collections::hash_map::DefaultHasher;
 
 # API
 Box::into_raw() // consume
-Box::from_raw()
+Box::from_raw() // reclaim leaked memory
 Box::as_ptr_mut() // convert
 
 std::vec::Vec
@@ -51,10 +52,12 @@ where V: ?Sized  // where V doesn't have to be sized, useful if V is used as ref
 panic!() / unreachable!()
 todo!() / unimplemented!()
 
+# crates
+use rand::Rng; let x = rand::random::<usize>(); 
 
 # other patterns
-Option<NonNull<T>> // None = discriminant 0x0 value of NonNull
-
+- Option<NonNull<T>> // None = discriminant 0x0 value of NonNull
+- leak functions: leaves allocated memory on heap never deallocating them and returns *mut pointer. 
 
 # tools
 - cargo clippy
@@ -86,3 +89,25 @@ match bucket.pop() {
     _ => {}
 }
 ```
+
+- variable binding in patterns
+```
+for &mut (ref ekey, ref mut evalue) in bucket.iter_mut() { // ref and ref mut are not being matched against but define how to bind the variables created. 
+    if ekey == &key {
+        return Some(mem::replace(evalue, value));
+    }
+}
+```
+
+- mutability of reference vs binding: 
+```
+let mut x = &mut y; // both value is mutable reference and x variable binding is mutable which can change location pointing to. 
+```
+
+# notes: 
+- shared ref, mut unique ref, owned. 
+- std::vec::Vec -> pointer to contiguous mem, capacity, len; 
+- std::collections::VecDeque -> growable ring buffer (vector wrapping around) with start & end pointers to specify initialized region. Can implement both stack and queue;
+    - Disadv.: Defragmentation may lead to slightly less efficient caching. Has extra overhead for calculating every index (to take account for wrapping). Doesn't implement deref to slice because of fragmentation. 
+- std::collecitons::HashMap -> sparsity property (remedied by resizing # of buckets); 
+    - bucket_list: Vec<Vec<(K, V)>>; Vec<LinkedList<(K,V)>>; Linear probing Vec<(K, V)>

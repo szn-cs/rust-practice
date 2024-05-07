@@ -1,0 +1,10 @@
+[package]
+name = "hash_map"
+version = "0.1.0"
+edition = "2021"
+
+[toolchain]
+channel = "nightly"
+
+[dependencies]
+datastructure = { path = "../datastructure" }

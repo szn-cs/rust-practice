@@ -11,11 +11,19 @@ name = "datastructure"
 version = "0.1.0"
 
 [[package]]
+name = "hash_map"
+version = "0.1.0"
+dependencies = [
+ "datastructure",
+]
+
+[[package]]
 name = "rust_practice"
 version = "0.1.0"
 dependencies = [
  "concept",
  "datastructure",
+ "hash_map",
  "single_linked_list",
 ]
 
