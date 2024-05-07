@@ -83,11 +83,48 @@ where
 
     #[allow(unused_variables)]
     fn remove(&mut self, key: &K) -> Option<V> {
-        unimplemented!();
+        if self.len == 0 {
+            return None;
+        }
+
+        let bucket = (key.hash() % self.bucket_list.len() as u64) as usize; // no truncation of remainder (guaranteed to be usize)
+        let bucket = &mut self.bucket_list[bucket];
+
+        let position = {
+            let mut p = None;
+            for (i, &mut (ref k, _)) in bucket.iter_mut().enumerate() {
+                if k == key {
+                    p = Some(i);
+                }
+            }
+            p
+        };
+
+        position.map(|p| {
+            let (_, v) = bucket.remove(p);
+            v
+        })
     }
 
     fn extend(&mut self) {
-        unimplemented!();
+        let new_capacity = self.bucket_list.capacity() * 2;
+        let mut new_bucket_list: Vec<LinkedList<(K, V)>> = Vec::with_capacity(new_capacity);
+
+        for _ in (0..new_capacity) {
+            new_bucket_list.push(LinkedList::new());
+        }
+
+        for (key, value) in self
+            .bucket_list
+            .iter_mut()
+            .flat_map(|bucket| bucket.into_iter())
+        {
+            let bucket = (key.hash() % self.bucket_list.capacity() as u64) as usize;
+            let bucket = &mut new_bucket_list[bucket];
+            bucket.push_back((key, value));
+        }
+
+        std::mem::replace(&mut self.bucket_list, new_bucket_list);
     }
 }
 
