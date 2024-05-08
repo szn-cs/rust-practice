@@ -40,6 +40,7 @@ std::iter::Iterator
     - .and_then
     - .clone
     - .collect
+    - .filter_map
 
 # Traits
 std::borrow::Borrow; 
@@ -111,3 +112,15 @@ let mut x = &mut y; // both value is mutable reference and x variable binding is
     - Disadv.: Defragmentation may lead to slightly less efficient caching. Has extra overhead for calculating every index (to take account for wrapping). Doesn't implement deref to slice because of fragmentation. 
 - std::collecitons::HashMap -> sparsity property (remedied by resizing # of buckets); 
     - bucket_list: Vec<Vec<(K, V)>>; Vec<LinkedList<(K,V)>>; Linear probing Vec<(K, V)>
+    - cryptographic hash to avoid dential of service attacks by generating requests of keys with conflicting hashes filling up the bucket with collisions. 
+- std::collections::{HashSet, BTreeSet} implemented as HashMap/BTreeMap with keys as set type and empty values. 
+    - eliminates duplicates
+    - API: contains, intersection, union, bitwise operators (impl. using union/intersection funcs), etc.
+-std::collections::BTreeMap are ordered.
+    - Unlike binary tree, BTree allow each node hold `B` values in a vector of capacity B = 6  (multiple values within each node). Reduces amount of metadata stored (e.g. less pointers). Also it is cache friendly.
+    - O(log n) insertion/lookup; 
+    - requires Ord orderable (not Hashable) for keys; 
+    - The tree is usually fairly full, thus it in general for the same data requires less memeory than HashMaps (factor of 1.x). 
+    - for splitting and appending can reuse existing allocations of the B vectors.  
+- std::collection::BinaryHeap collection for getting min/max out of the elements (priority queue). Unordered. implemented as flattened binary tree inside a vector, maintaining priority at index 0 with log(n) swaps. Allow duplicate elements.  
+    - O(1) retreival/peak of priority element; O(log n) insertion/deletion; 
