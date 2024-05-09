@@ -21,13 +21,21 @@ std::collections::hash_map::DefaultHasher;
 
 
 # API
-Box::into_raw() // consume
-Box::from_raw() // reclaim leaked memory
-Box::as_ptr_mut() // convert
 
 std::vec::Vec
 - .swap_remove
--  
+
+std::option::Option
+- .take()
+
+std::boxed::Box
+- .into_raw() // consume
+- .from_raw() // reclaim leaked memory
+- .as_ptr_mut() // convert
+
+std::ptr::NonNull
+- .as_ptr() 
+- .as_mut() 
 
 std::iter::Iterator
     - .extend
@@ -41,6 +49,9 @@ std::iter::Iterator
     - .clone
     - .collect
     - .filter_map
+
+slice
+- .split_at_mut
 
 # Traits
 std::borrow::Borrow; 
@@ -105,6 +116,55 @@ for &mut (ref ekey, ref mut evalue) in bucket.iter_mut() { // ref and ref mut ar
 let mut x = &mut y; // both value is mutable reference and x variable binding is mutable which can change location pointing to. 
 ```
 
+- ignore/empty errors
+```
+fn do_something() -> Result<i32, ()> {
+    if true { 
+        Result::Ok(123)
+    } else {
+        Result::Err( () )
+    }
+}
+```
+- accept any error
+```
+fn do_something() -> Result<(), Box<dyn std::error::Error>> {
+    if true { 
+        Ok(())
+    } else { 
+        Err(format!("{}", "something"))
+    }
+}
+```
+
+- define function as params with static dispatch
+```
+fn func(f: impl Fn(i3s) -> i32) {
+    f(10);
+}
+```
+- using traits generics 
+```
+fn func<F>(f: F) where F: Fn()->() { 
+    f();
+}
+```
+
+- swap elements in vector
+```
+pub fn swap<T>(arr: &mut [T], i: usize, j: usize) {
+    let (low, high) = match i.cmp(&j) {
+        Ordering::Less => (i, j),
+        Ordering::Greater => (j, i),
+        Ordering::Equal => return,
+    };
+    
+    let (a, b) = arr.split_at_mut(high); // to allow multiple mutable references on different objects (assuming left/right disjoint)
+    
+    std::mem::swap(&mut a[low], &mut b[0]);
+}
+```
+
 # notes: 
 - shared ref, mut unique ref, owned. 
 - std::vec::Vec -> pointer to contiguous mem, capacity, len; 
@@ -117,10 +177,16 @@ let mut x = &mut y; // both value is mutable reference and x variable binding is
     - eliminates duplicates
     - API: contains, intersection, union, bitwise operators (impl. using union/intersection funcs), etc.
 -std::collections::BTreeMap are ordered.
-    - Unlike binary tree, BTree allow each node hold `B` values in a vector of capacity B = 6  (multiple values within each node). Reduces amount of metadata stored (e.g. less pointers). Also it is cache friendly.
+    - Unlike binary tree (BSTs), BTree allow each node hold `B` values in a vector of capacity B = 6  (multiple values within each node). Reduces amount of metadata stored (e.g. less pointers). 
+    - cache friendly compared to BST pointers or even if mapped as an array has random indexing pattern. May lead to more work to do mutation but cache efficient. Similar to m-way search tree but is more constrainted to fill at least half of the node is filled & leafs at same level.
     - O(log n) insertion/lookup; 
     - requires Ord orderable (not Hashable) for keys; 
     - The tree is usually fairly full, thus it in general for the same data requires less memeory than HashMaps (factor of 1.x). 
-    - for splitting and appending can reuse existing allocations of the B vectors.  
+    - for splitting and appending can reuse existing allocations of the B vectors. Built down-up.
 - std::collection::BinaryHeap collection for getting min/max out of the elements (priority queue). Unordered. implemented as flattened binary tree inside a vector, maintaining priority at index 0 with log(n) swaps. Allow duplicate elements.  
     - O(1) retreival/peak of priority element; O(log n) insertion/deletion; 
+    - O(n) Heapify (traverse vector right-left and bubble down). 
+    - O(n log n) Heap creation. 
+    - O(log n) heapify down (doens't require entire tree heapify).
+    - important to preserve complete binary tree property. 
+    - heap sort: delete elements and place them in the freed cell will result in sorted elements.

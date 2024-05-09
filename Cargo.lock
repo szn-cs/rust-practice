@@ -3,6 +3,13 @@
 version = 3
 
 [[package]]
+name = "binary_heap"
+version = "0.1.0"
+dependencies = [
+ "datastructure",
+]
+
+[[package]]
 name = "concept"
 version = "0.1.0"
 
@@ -21,6 +28,7 @@ dependencies = [
 name = "rust_practice"
 version = "0.1.0"
 dependencies = [
+ "binary_heap",
  "concept",
  "datastructure",
  "hash_map",

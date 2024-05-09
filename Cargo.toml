@@ -7,10 +7,17 @@ edition = "2021"
 channel = "nightly"
 
 [workspace]
-members = ["concept", "datastructure", "hash_map", "single_linked_list"]
+members = [
+    "binary_heap",
+    "concept",
+    "datastructure",
+    "hash_map",
+    "single_linked_list",
+]
 
 [dependencies]
 single_linked_list = { path = "single_linked_list" }
 concept = { path = "concept" }
 datastructure = { path = "datastructure" }
 hash_map = { path = "hash_map" }
+binary_heap = { path = "binary_heap" }
