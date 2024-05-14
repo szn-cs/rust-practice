@@ -7,11 +7,11 @@ std::boxed::Box;
 std::option::Option; 
 std::ptr::NonNull; 
 std::marker::PhantomData; 
-std::mem::{replace, swap, take}
+std::mem::{replace, swap, take, size_of, align_of}
 
 std::ops::{Fn, FnMut, FnOnce}
 std::ops::{Drop}
-std::cmp::{Eq, PartialEq}
+std::cmp::{Eq, PartialEq, Ordering, Ord}
 
 std::fmt::{Debug, Display, Formatter};
 
@@ -162,6 +162,29 @@ pub fn swap<T>(arr: &mut [T], i: usize, j: usize) {
     let (a, b) = arr.split_at_mut(high); // to allow multiple mutable references on different objects (assuming left/right disjoint)
     
     std::mem::swap(&mut a[low], &mut b[0]);
+}
+```
+
+- interface for free-standing functions with as an extension approach 
+```
+trait Sorter { 
+    fn sort<T>(slice: &mut [T]) where T: Ord; 
+}
+
+fn sort<T, S>(slice: &mut [T]) where T: Ord, S: Sorter { 
+    S::sort(slice); // redirect input to specific implementation
+}
+
+fn main() { 
+    struct StdSort; // define a custom implementation
+    impl Sorter for StdSort { 
+        fn sort<T>(slice: &mut [T]) where T: Ord { 
+            slice.sort(); 
+        }
+    }
+
+    let mut things = vec![4,3,2,1]; 
+    sort::<_, StdSort>(&mut things); 
 }
 ```
 
