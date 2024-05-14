@@ -1,4 +1,4 @@
-use datastructure::specification::hash_map::minimal::HashMap as Spec;
+use specification::datastructure::hash_map::minimal::HashMap as Spec;
 
 pub struct HashMap<K, V> {
     bucket_list: Vec<Vec<(K, V)>>,

@@ -10,14 +10,16 @@ channel = "nightly"
 members = [
     "binary_heap",
     "concept",
-    "datastructure",
     "hash_map",
     "single_linked_list",
+    "sort",
+    "specification",
 ]
 
 [dependencies]
 single_linked_list = { path = "single_linked_list" }
 concept = { path = "concept" }
-datastructure = { path = "datastructure" }
+specification = { path = "specification" }
 hash_map = { path = "hash_map" }
 binary_heap = { path = "binary_heap" }
+sort = { path = "sort" }

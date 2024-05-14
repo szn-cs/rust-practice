@@ -1,4 +1,4 @@
-use datastructure::specification::linked_list::minimal::DoubleLinkedList as Spec;
+use specification::datastructure::linked_list::minimal::DoubleLinkedList as Spec;
 use single_linked_list::double_linked_list::DoubleLinkedList as LinkedList;
 
 #[test]

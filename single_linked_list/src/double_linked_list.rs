@@ -4,7 +4,7 @@ use std::marker::PhantomData;
 use std::ops::{Drop, Fn};
 use std::ptr::NonNull;
 
-use datastructure::specification::linked_list::minimal::DoubleLinkedList as Spec;
+use specification::datastructure::linked_list::minimal::DoubleLinkedList as Spec;
 
 type Link<T> = NonNull<Node<T>>;
 

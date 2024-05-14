@@ -28,6 +28,9 @@
 - https://gist.github.com/jacius/6dbc5d2fe13d219d5403
 - https://codereview.stackexchange.com/questions/259315/binary-heap-implementation-in-rust
 
+## sorting algos
+- https://www.youtube.com/watch?v=h4RkCyJyXmM
+
 ### Miscellaneous  
 - https://aloso.github.io/2021/03/09/creating-an-iterator#a-traverse-method
 - https://geo-ant.github.io/blog/2023/unsafe-rust-exploration/#fnref:safeapi

@@ -6,7 +6,7 @@ version = 3
 name = "binary_heap"
 version = "0.1.0"
 dependencies = [
- "datastructure",
+ "specification",
 ]
 
 [[package]]
@@ -14,14 +14,10 @@ name = "concept"
 version = "0.1.0"
 
 [[package]]
-name = "datastructure"
-version = "0.1.0"
-
-[[package]]
 name = "hash_map"
 version = "0.1.0"
 dependencies = [
- "datastructure",
+ "specification",
 ]
 
 [[package]]
@@ -30,14 +26,26 @@ version = "0.1.0"
 dependencies = [
  "binary_heap",
  "concept",
- "datastructure",
  "hash_map",
  "single_linked_list",
+ "sort",
+ "specification",
 ]
 
 [[package]]
 name = "single_linked_list"
 version = "0.1.0"
 dependencies = [
- "datastructure",
+ "specification",
 ]
+
+[[package]]
+name = "sort"
+version = "0.1.0"
+dependencies = [
+ "specification",
+]
+
+[[package]]
+name = "specification"
+version = "0.1.0"

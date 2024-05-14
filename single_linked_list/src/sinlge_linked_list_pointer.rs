@@ -4,7 +4,7 @@ use std::marker::PhantomData;
 use std::option::Option;
 use std::ptr::NonNull;
 
-use datastructure::specification::linked_list::minimal::SingleLinkedList as Spec;
+use specification::datastructure::linked_list::minimal::SingleLinkedList as Spec;
 
 /**
  * - implements Copy

@@ -1,6 +1,6 @@
 use std::cmp::Ord;
 
-use datastructure::specification::binary_heap::minimal::BinaryHeap as Spec;
+use specification::datastructure::binary_heap::minimal::BinaryHeap as Spec;
 
 pub struct BinaryHeap<V, F>
 where

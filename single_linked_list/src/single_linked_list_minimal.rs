@@ -3,7 +3,7 @@ use std::clone::Clone;
 use std::iter::{IntoIterator, Iterator};
 use std::rc::Rc;
 
-use datastructure::specification::linked_list::minimal::SingleLinkedList as Spec;
+use specification::datastructure::linked_list::minimal::SingleLinkedList as Spec;
 
 type Link<T> = Option<Rc<RefCell<Node<T>>>>;
 

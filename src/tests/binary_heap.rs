@@ -1,5 +1,5 @@
 use binary_heap::BinaryHeap;
-use datastructure::specification::binary_heap::minimal::BinaryHeap as Spec;
+use specification::datastructure::binary_heap::minimal::BinaryHeap as Spec;
 
 #[test]
 fn binary_heap_usage() {

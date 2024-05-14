@@ -10,3 +10,5 @@ mod double_linked_list;
 mod hash_map;
 
 mod binary_heap;
+
+mod sort;

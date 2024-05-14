@@ -2,7 +2,7 @@ use std::cmp::Eq;
 use std::collections::LinkedList;
 use std::mem;
 
-use datastructure::specification::hash_map::minimal::HashMap as Spec;
+use specification::datastructure::hash_map::minimal::HashMap as Spec;
 
 const INITIAL_CAPACITY: usize = 10;
 
