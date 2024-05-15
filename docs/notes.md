@@ -24,6 +24,7 @@ std::collections::hash_map::DefaultHasher;
 
 std::vec::Vec
 - .swap_remove
+- .extend_from_slice
 
 std::option::Option
 - .take()
@@ -52,6 +53,14 @@ std::iter::Iterator
 
 slice
 - .split_at_mut
+- .clone_from_slice
+- .sort_by
+- .binary_search_by
+
+ParialOrd: 
+- .parial_cmp -> Ordering
+Ord: 
+- .cmp -> Ordering
 
 # Traits
 std::borrow::Borrow; 
