@@ -89,9 +89,72 @@ mod impl_3 {
 
 /**
  * Probe for complement using hash map
+ *
+ * O(n)
  */
 mod impl_4 {
-    // TODO!
+    use std::collections::HashMap;
+
+    pub fn two_sum(list: &[i32], target: i32) -> Option<(usize, usize)> {
+        let mut r = None;
+
+        // build hash map
+        // O(n)
+        let mut hash_map: HashMap<i32, usize> = HashMap::new();
+        for (i, &e) in list.iter().enumerate() {
+            hash_map.insert(e, i);
+        }
+
+        // find pair
+        // O(n)
+        for (i, &e) in list.iter().enumerate() {
+            let complement = target - e;
+
+            if let Some(&seek) = hash_map.get(&complement) {
+                if i == seek {
+                    continue;
+                }
+
+                r = Some((i, seek));
+                break;
+            }
+        }
+
+        r
+    }
+}
+
+/**
+ * Probe for complement using hash map with single pass
+ *
+ * O(n)
+ */
+mod impl_5 {
+    use std::collections::HashMap;
+
+    pub fn two_sum(list: &[i32], target: i32) -> Option<(usize, usize)> {
+        let mut r = None;
+        let mut hash_map: HashMap<i32, usize> = HashMap::new();
+
+        // find pair
+        // O(n)
+        for (i, &e) in list.iter().enumerate() {
+            let complement = target - e;
+
+            if let Some(&seek) = hash_map.get(&complement) {
+                if i == seek {
+                    continue;
+                }
+
+                r = Some((i, seek));
+                break;
+            } else {
+                hash_map.insert(e, i);
+            }
+        }
+
+        r
+    }
 }
 
 #[cfg(test)]
@@ -164,6 +227,48 @@ mod tests {
             let l = vec![3, 3];
             let result = two_sum(&l[..], 6);
             assert_eq!(result, Some((0, 1)));
+        }
+    }
+
+    #[test]
+    fn test_impl_4() {
+        use super::impl_4::two_sum;
+
+        {
+            let l = vec![11, 2, 15, 7];
+            let result = two_sum(&l[..], 9);
+            assert_eq!(result, Some((1, 3)));
+        }
+        {
+            let l = vec![3, 2, 4];
+            let result = two_sum(&l[..], 6);
+            assert_eq!(result, Some((1, 2)));
+        }
+        {
+            let l = vec![3, 3];
+            let result = two_sum(&l[..], 6);
+            assert_eq!(result, Some((0, 1)));
+        }
+    }
+
+    #[test]
+    fn test_impl_5() {
+        use super::impl_5::two_sum;
+
+        {
+            let l = vec![11, 2, 15, 7];
+            let result = two_sum(&l[..], 9);
+            assert!(Some((1, 3)) == result || Some((3, 1)) == result);
+        }
+        {
+            let l = vec![3, 2, 4];
+            let result = two_sum(&l[..], 6);
+            assert!(Some((1, 2)) == result || Some((2, 1)) == result);
+        }
+        {
+            let l = vec![3, 3];
+            let result = two_sum(&l[..], 6);
+            assert!(Some((0, 1)) == result || Some((1, 0)) == result);
         }
     }
 }
