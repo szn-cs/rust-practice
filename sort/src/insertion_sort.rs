@@ -72,9 +72,11 @@ pub mod impl_3 {
             T: Ord,
             F: Fn(&T, &T) -> bool,
         {
-            for i in 1..slice.len() {
-                let target = slice[..i].binary_search(&slice[i]).unwrap_or_else(|i| i); // position to insert the element
-                slice[target..=i].rotate_right(1); // shift and last element wraps
+            for unsorted in 1..slice.len() {
+                let target = slice[..unsorted]
+                    .binary_search(&slice[unsorted])
+                    .unwrap_or_else(|i| i); // position to insert the element
+                slice[target..=unsorted].rotate_right(1); // shift and last element wraps
             }
         }
     }
