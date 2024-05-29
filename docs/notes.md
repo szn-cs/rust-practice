@@ -56,6 +56,7 @@ slice
 - .clone_from_slice
 - .sort_by
 - .binary_search_by
+- .rotate_right
 
 ParialOrd: 
 - .parial_cmp -> Ordering

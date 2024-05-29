@@ -30,6 +30,11 @@ pub mod impl_1 {
     }
 }
 
+/**
+ * Minor optimization; prevent unnecessary iterations if list already sorted.
+ *
+ * for loop flavor
+ */
 pub mod impl_2 {
     use super::*;
 
@@ -61,7 +66,10 @@ pub mod impl_2 {
 }
 
 /**
- * minor optimization to quit early if already sorted
+ * Minor optimization; prevent unnecessary iterations if list already sorted.
+ * (minor optimization to quit early if already sorted)
+ *
+ * while flavor
  */
 pub mod impl_3 {
     use super::*;
