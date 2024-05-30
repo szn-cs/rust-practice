@@ -50,3 +50,19 @@ fn insertion_sort_test() {
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
 }
+
+#[test]
+fn selection_sort_test() {
+    {
+        use sort::selection_sort::impl_1::SelectionSort;
+        let mut l = vec![5, 4, 3, 2, 1];
+        sort::<_, SelectionSort, _>(&mut l[..], |&a, &b| a > b);
+        assert_eq![l, vec![1, 2, 3, 4, 5]];
+    }
+    {
+        use sort::selection_sort::impl_2::SelectionSort;
+        let mut l = vec![5, 4, 3, 2, 1];
+        sort::<_, SelectionSort, _>(&mut l[..], |&a, &b| a > b);
+        assert_eq![l, vec![1, 2, 3, 4, 5]];
+    }
+}
