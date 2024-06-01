@@ -66,3 +66,14 @@ fn selection_sort_test() {
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
 }
+
+#[test]
+fn quick_sort_test() {
+    {
+        use sort::quick_sort::impl_1::QuickSort;
+        let mut l = vec![5, 4, 3, 2, 1];
+        // sort::<_, QuickSort, _>(&mut l[..], |&a, &b| a > b);
+        QuickSort::sort(&mut l[..], &(|&a, &b| a > b));
+        assert_eq![l, vec![1, 2, 3, 4, 5]];
+    }
+}

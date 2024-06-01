@@ -53,8 +53,10 @@ std::iter::Iterator
 
 slice
 - .split_at_mut
+- .copy_from_slice
 - .clone_from_slice
 - .sort_by
+- .sort_by_key
 - .binary_search_by
 - .rotate_right
 
@@ -196,6 +198,21 @@ fn main() {
     let mut things = vec![4,3,2,1]; 
     sort::<_, StdSort>(&mut things); 
 }
+```
+
+- std::mem::copy of slice to another
+```
+    fn f<T: Copy>(s1: &mut [T], s2: &mut [T]) { 
+        let s1 = vec![T::default(); 5]; 
+        let s2 = vec![1,2,3,4,5];
+
+        s1.copy_from_slice(s2);        
+    }
+
+
+    // another way
+    for (dst, src) in dst.iter_mut().zip(src) { *dst = *src }
+
 ```
 
 # notes: 
