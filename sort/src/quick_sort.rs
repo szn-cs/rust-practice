@@ -20,7 +20,7 @@ pub mod impl_1 {
             match slice.len() {
                 0 | 1 => return,
                 2 => {
-                    if slice[0] > slice[1] {
+                    if compare(&slice[0], &slice[1]) {
                         slice.swap(0, 1);
                     }
                     return;
@@ -42,10 +42,10 @@ pub mod impl_1 {
                 .filter(|&(i, _)| i != p)
                 .map(|(_, value)| value)
             {
-                if *element <= pivot {
-                    left.push(element.clone());
-                } else {
+                if compare(element, &pivot) {
                     right.push(element.clone());
+                } else {
+                    left.push(element.clone());
                 }
             }
 
@@ -69,14 +69,156 @@ pub mod impl_1 {
  */
 pub mod impl_2 {
     use super::*;
+    // use std::fmt::Display;
     pub struct QuickSort;
 
-    impl Sorter for QuickSort {
-        fn sort<T, F>(slice: &mut [T], compare: F)
+    impl QuickSort {
+        pub fn sort<T, F>(slice: &mut [T], compare: &F)
         where
-            T: Ord,
+            T: Ord, /* + Display */
             F: Fn(&T, &T) -> bool,
         {
+            // base cases
+            match slice.len() {
+                0 | 1 => return,
+                2 => {
+                    if compare(&slice[0], &slice[1]) {
+                        slice.swap(0, 1);
+                    }
+                    return;
+                }
+                _ => {}
+            }
+
+            // choose appropriate pivot
+            // let pick_pivot = |slice: &mut [T]| slice.len() / 2;
+            let pick_pivot = |slice: &mut [T]| 0;
+            let pivot = pick_pivot(slice); // index of pivot
+
+            // partition to left/right portions
+            slice.swap(0, pivot); // move pivot out of the way
+            let (pivot, remain) = slice.split_first_mut().expect("slice is non-empty"); // remaining slice excluding pivot
+
+            let split = {
+                let mut left = 0; // bounds: [0, len]
+                let mut right: usize = remain.len() - 1; // bounds: [overflow -1, len-1]
+
+                while left <= right {
+                    if remain[left] < *pivot {
+                        left += 1;
+                        // println!("left = {}", left);
+                    } else if remain[right] > *pivot {
+                        right = {
+                            let right = right.checked_sub(1);
+                            if let Some(right) = right {
+                                right
+                            } else {
+                                break;
+                            }
+                        };
+                        // println!("right = {}", right);
+                    } else {
+                        remain.swap(left, right);
+                        left += 1;
+                        right = {
+                            let right = right.checked_sub(1);
+                            if let Some(right) = right {
+                                right
+                            } else {
+                                break;
+                            }
+                        };
+                    };
+                }
+
+                left
+            };
+
+            // place pivot in its final adjusted position
+            let first_right = split; // first element in right
+            slice.swap(0, first_right);
+
+            let (left, right) = slice.split_at_mut(split);
+            let (_, right) = right.split_first_mut().expect("slice is non-empty"); // adjust to exclude pivot
+
+            // recursively in-place sort portions (resulting in a sorted original slice)
+            Self::sort(left, compare);
+            Self::sort(right, compare);
+        }
+    }
+}
+
+/**
+ * Use wrapping_sub
+ * Same as impl_2 but with for loop for an additional bounding on number of iterations
+ */
+pub mod impl_3 {
+    use super::*;
+    // use std::fmt::Display;
+    pub struct QuickSort;
+
+    impl QuickSort {
+        pub fn sort<T, F>(slice: &mut [T], compare: &F)
+        where
+            T: Ord, /* + Display */
+            F: Fn(&T, &T) -> bool,
+        {
+            // base cases
+            match slice.len() {
+                0 | 1 => return,
+                2 => {
+                    if compare(&slice[0], &slice[1]) {
+                        slice.swap(0, 1);
+                    }
+                    return;
+                }
+                _ => {}
+            }
+
+            // choose appropriate pivot
+            // let pick_pivot = |slice: &mut [T]| slice.len() / 2;
+            let pick_pivot = |slice: &mut [T]| 0;
+            let pivot = pick_pivot(slice); // index of pivot
+
+            // partition to left/right portions
+            slice.swap(0, pivot); // move pivot out of the way
+            let (pivot, remain) = slice.split_first_mut().expect("slice is non-empty"); // remaining slice excluding pivot
+
+            let split = {
+                let mut left = 0; // bounds: [0, len]
+                let mut right: usize = remain.len() - 1; // bounds: [overflow -1, len-1]
+
+                for _ in 0..remain.len() {
+                    if left > right {
+                        break;
+                    }
+
+                    if remain[left] < *pivot {
+                        left += 1;
+                        // println!("left = {}", left);
+                    } else if remain[right] > *pivot {
+                        right = right.wrapping_sub(1);
+                        // println!("right = {}", right);
+                    } else {
+                        remain.swap(left, right);
+                        left += 1;
+                        right = right.wrapping_sub(1);
+                    };
+                }
+
+                left
+            };
+
+            // place pivot in its final adjusted position
+            let first_right = split; // first element in right
+            slice.swap(0, first_right);
+
+            let (left, right) = slice.split_at_mut(split);
+            let (_, right) = right.split_first_mut().expect("slice is non-empty"); // adjust to exclude pivot
+
+            // recursively in-place sort portions (resulting in a sorted original slice)
+            Self::sort(left, compare);
+            Self::sort(right, compare);
         }
     }
 }

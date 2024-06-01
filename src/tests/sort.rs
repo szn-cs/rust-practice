@@ -76,4 +76,27 @@ fn quick_sort_test() {
         QuickSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
+    {
+        use sort::quick_sort::impl_2::QuickSort;
+        let mut l = vec![5, 4, 3, 2, 1];
+        // sort::<_, QuickSort, _>(&mut l[..], |&a, &b| a > b);
+        QuickSort::sort(&mut l[..], &(|&a, &b| a > b));
+        assert_eq![l, vec![1, 2, 3, 4, 5]];
+    }
+    {
+        // check for overflow
+        use sort::quick_sort::impl_2::QuickSort;
+        let mut l = vec![0, 4, 3, 2, 1];
+        // sort::<_, QuickSort, _>(&mut l[..], |&a, &b| a > b);
+        QuickSort::sort(&mut l[..], &(|&a, &b| a > b));
+        assert_eq![l, vec![0, 1, 2, 3, 4]];
+    }
+    {
+        // check for overflow
+        use sort::quick_sort::impl_3::QuickSort;
+        let mut l = vec![0, 4, 3, 2, 1];
+        // sort::<_, QuickSort, _>(&mut l[..], |&a, &b| a > b);
+        QuickSort::sort(&mut l[..], &(|&a, &b| a > b));
+        assert_eq![l, vec![0, 1, 2, 3, 4]];
+    }
 }
