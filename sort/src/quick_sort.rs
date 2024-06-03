@@ -222,3 +222,8 @@ pub mod impl_3 {
         }
     }
 }
+
+/**
+ * Non-recursive iterative equivalent
+ */
+pub mod impl_4 {}
