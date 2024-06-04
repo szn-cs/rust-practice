@@ -3,4 +3,5 @@
 // pub mod refcell;
 pub mod generic_trait;
 pub mod hashmap_api;
+pub mod iterator;
 pub mod unsafe_pionter;

@@ -25,6 +25,7 @@ std::collections::hash_map::DefaultHasher;
 std::vec::Vec
 - .swap_remove
 - .extend_from_slice
+- .extend
 
 std::option::Option
 - .take()
@@ -50,6 +51,10 @@ std::iter::Iterator
     - .clone
     - .collect
     - .filter_map
+    - .fold
+    - .repeat
+    - .take
+    - .chain
 
 slice
 - .split_at_mut
