@@ -193,6 +193,143 @@ pub mod impl_3 {
 }
 
 /**
- * Non-recursive iterative equivalent
+ * Non-recursive equivalent iterative solution using a stack
  */
-pub mod impl_4 {}
+pub mod impl_4 {
+    use super::*;
+    use std::vec::Vec;
+
+    pub struct MergeSort;
+
+    pub fn sort<T, F>(slice: &mut [T], compare: &F)
+    where
+        T: Ord,
+        F: Fn(&T, &T) -> bool,
+    {
+        /*
+        let n = slice.len();
+
+        if n < 2 {
+            return;
+        }
+
+        // init stack
+        let mut stack = {
+            let mut v = Vec::new();
+            v.push(slice);
+            v
+        };
+
+        while !stack.is_empty() {
+            let partition = stack.pop().unwrap();
+            let n = partition.len();
+            let m = partition.len() / 2; // [0, mid) and [mid, len-1]
+
+            let (left, right) = partition.split_at_mut(m);
+
+            stack.push(left);
+            stack.push(right);
+
+            // base/trivial cases
+            match n {
+                0 | 1 => continue,
+                2 => {
+                    if compare(&partition[0], &partition[1]) {
+                        partition.swap(0, 1);
+                        continue;
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        // [2] merge left/right partitions
+         */
+    }
+}
+
+/**
+ * Non-iterative using nested for loop (rephrasing the algorithm to implement a bottom-up approach)
+ */
+pub mod impl_5 {
+    use super::*;
+    use std::cmp::min;
+    use std::fmt::Debug;
+    use std::iter;
+
+    pub struct MergeSort;
+
+    impl MergeSort {
+        fn merge<T, F>(slice: &mut [T], compare: &F, left: usize, right: usize)
+        where
+            T: Ord + Debug,
+            F: Fn(&T, &T) -> bool,
+        {
+            let (mut i, mut j) = (left, right); // left/right partitions
+
+            while i < j && j < slice.len() {
+                if compare(&slice[i], &slice[j]) {
+                    slice[i..=j].rotate_right(1);
+                    j += 1;
+                };
+                i += 1;
+            }
+        }
+
+        pub fn sort<T, F>(slice: &mut [T], compare: &F)
+        where
+            T: Ord + Debug,
+            F: Fn(&T, &T) -> bool,
+        {
+            let n = slice.len();
+
+            let window = {
+                let mut counter = 1;
+
+                iter::from_fn(move || {
+                    let p = 2usize.pow(counter);
+                    counter += 1;
+                    Some(p)
+                }) // e.g. 2, 4, 8, 16, ..
+                .take_while(|&p| p < n * 2) // will generate partitions (powers of 2) that are either engulfed within n, or the smallest partition that engulfs n itself. i.e. if number lands between power 2 partitions, then choose the higher one.
+            };
+
+            let group = |w: usize| {
+                let mut l = 0;
+                let it = iter::from_fn(move || {
+                    if  l >= n /*out of range */ 
+                        || 
+                        l == n - 1 /* last element */ {
+                        return None;
+                    }
+
+                    let h = min(l + w - 1, n - 1);
+                    let m = w / 2 + l;
+
+                    // skip remaining elements if don't fit window partition
+                    if m >= n {
+                        return None; 
+                    }
+
+                    let tuple = (l, m, h);
+
+                    l += w;
+
+                    Some(tuple)
+                });
+
+                it
+            };
+
+            for w in window {
+                for (l, m, h) in group(w).into_iter() {
+                    println!("Window size: {} partition: {} {} {}", w, l, m, h);
+                    let slice = &mut slice[l..=h]; // window constrained portion
+                    dbg!(&slice);
+                    Self::merge(slice, compare, 0, m - l);
+                    dbg!(&slice);
+                }
+            }
+        }
+    }
+}

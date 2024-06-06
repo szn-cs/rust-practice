@@ -12,6 +12,7 @@ std::mem::{replace, swap, take, size_of, align_of}
 std::ops::{Fn, FnMut, FnOnce}
 std::ops::{Drop}
 std::cmp::{Eq, PartialEq, Ordering, Ord}
+-   std::cmp::min;
 
 std::fmt::{Debug, Display, Formatter};
 
@@ -55,6 +56,9 @@ std::iter::Iterator
     - .repeat
     - .take
     - .chain
+std::iter::from_fn
+    - .take()
+    - .take_while()
 
 slice
 - .split_at_mut

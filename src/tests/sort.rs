@@ -124,4 +124,41 @@ fn merge_sort_test() {
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
+    /* {
+        use sort::merge_sort::impl_4::MergeSort;
+        let mut l = vec![5, 4, 3, 2, 1];
+        // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
+        MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
+        assert_eq![l, vec![1, 2, 3, 4, 5]];
+    }
+    */
+
+    {
+        use sort::merge_sort::impl_5::MergeSort;
+        let mut l = vec![5, 4, 3, 2, 1];
+        // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
+        MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
+        assert_eq![l, vec![1, 2, 3, 4, 5]];
+    }
+    {
+        use sort::merge_sort::impl_5::MergeSort;
+        let mut l = vec![6, 5, 4, 3, 2, 1];
+        // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
+        MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
+        assert_eq![l, vec![1, 2, 3, 4, 5, 6]];
+    }
+    {
+        use sort::merge_sort::impl_5::MergeSort;
+        let mut l = vec![8, 7, 6, 5, 4, 3, 2, 1];
+        // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
+        MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
+        assert_eq![l, vec![1, 2, 3, 4, 5, 6, 7, 8]];
+    }
+    {
+        use sort::merge_sort::impl_5::MergeSort;
+        let mut l = vec![9, 8, 7, 6, 5, 4, 3, 2, 1];
+        // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
+        MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
+        assert_eq![l, vec![1, 2, 3, 4, 5, 6, 7, 8, 9]];
+    }
 }

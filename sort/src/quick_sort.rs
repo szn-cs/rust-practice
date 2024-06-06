@@ -226,4 +226,14 @@ pub mod impl_3 {
 /**
  * Non-recursive iterative equivalent
  */
-pub mod impl_4 {}
+pub mod impl_4 {
+    pub struct QuickSort;
+
+    pub fn sort<T, F>(slice: &mut [T], compare: &F)
+    where
+        T: Ord,
+        F: Fn(&T, &T) -> bool,
+    {
+        // TODO: use queue datastructure to keep track of "stack frames" as equivalent to recusrive calls.
+    }
+}
