@@ -197,16 +197,55 @@ pub mod impl_3 {
  */
 pub mod impl_4 {
     use super::*;
-    use std::vec::Vec;
+    use std::collections::VecDeque; 
 
     pub struct MergeSort;
 
-    pub fn sort<T, F>(slice: &mut [T], compare: &F)
-    where
-        T: Ord,
-        F: Fn(&T, &T) -> bool,
-    {
-        
+    impl MergeSort { 
+        fn merge<T, F>(left: &mut [T], right: &mut [T], compare: &F) -> Vec<T> where T: Ord + Clone, F: Fn(&T, &T) -> bool { 
+            let mut s = Vec::with_capacity(left.len() + right.len()); 
+            
+            let (mut l, mut r) = (0, 0); 
+            while l < left.len() && r < right.len() { 
+                if compare(&left[l], &right[r]) { 
+                    s.push(right[r].clone()); 
+                    r += 1; 
+                } else { 
+                    s.push(left[l].clone()); 
+                    l += 1; 
+                }
+            }
+
+            s.extend(left[l..].iter().cloned()); 
+            s.extend(right[r..].iter().cloned()); 
+
+            s    
+        }
+    
+        pub fn sort<T, F>(slice: &mut [T], compare: &F)
+        where T: Ord + Clone, F: Fn(&T, &T) -> bool,
+        {
+            let mut queue = VecDeque::new(); 
+
+            for e in slice.iter().cloned() { 
+                queue.push_back(vec![e]);
+            }        
+    
+            while queue.len() > 1 {
+                let mut left = queue.pop_front().unwrap(); 
+                let mut right = queue.pop_front().unwrap(); 
+                
+                let merged = Self::merge(&mut left[..], &mut right[..], compare);   
+
+                assert_eq!(merged.len(), left.len() + right.len()); 
+                queue.push_back(merged); 
+            }
+
+            let sorted = queue.pop_front().unwrap(); 
+
+            assert_eq!(slice.len(), sorted.len());
+            slice.clone_from_slice(&sorted[..]);
+        }
     }
 }
 
