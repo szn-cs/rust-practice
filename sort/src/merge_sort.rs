@@ -206,45 +206,7 @@ pub mod impl_4 {
         T: Ord,
         F: Fn(&T, &T) -> bool,
     {
-        /*
-        let n = slice.len();
-
-        if n < 2 {
-            return;
-        }
-
-        // init stack
-        let mut stack = {
-            let mut v = Vec::new();
-            v.push(slice);
-            v
-        };
-
-        while !stack.is_empty() {
-            let partition = stack.pop().unwrap();
-            let n = partition.len();
-            let m = partition.len() / 2; // [0, mid) and [mid, len-1]
-
-            let (left, right) = partition.split_at_mut(m);
-
-            stack.push(left);
-            stack.push(right);
-
-            // base/trivial cases
-            match n {
-                0 | 1 => continue,
-                2 => {
-                    if compare(&partition[0], &partition[1]) {
-                        partition.swap(0, 1);
-                        continue;
-                    }
-                }
-                _ => {}
-            }
-        }
-
-        // [2] merge left/right partitions
-         */
+        
     }
 }
 
@@ -294,9 +256,10 @@ pub mod impl_5 {
                 .take_while(|&p| p < n * 2) // will generate partitions (powers of 2) that are either engulfed within n, or the smallest partition that engulfs n itself. i.e. if number lands between power 2 partitions, then choose the higher one.
             };
 
-            let group = |w: usize| {
+            let slide = |w: usize| {
                 let mut l = 0;
-                let it = iter::from_fn(move || {
+                
+                iter::from_fn(move || {
                     if  l >= n /*out of range */ 
                         || 
                         l == n - 1 /* last element */ {
@@ -316,18 +279,106 @@ pub mod impl_5 {
                     l += w;
 
                     Some(tuple)
-                });
-
-                it
+                })
             };
 
             for w in window {
-                for (l, m, h) in group(w).into_iter() {
-                    println!("Window size: {} partition: {} {} {}", w, l, m, h);
+                for (l, m, h) in slide(w).into_iter() {
+                    // println!("Window size: {} partition: {} {} {}", w, l, m, h);
                     let slice = &mut slice[l..=h]; // window constrained portion
-                    dbg!(&slice);
+                    // dbg!(&slice);
                     Self::merge(slice, compare, 0, m - l);
-                    dbg!(&slice);
+                    // dbg!(&slice);
+                }
+            }
+        }
+    }
+}
+
+
+/**
+ * same as impl_5 but with slightly different structure of code
+ */
+pub mod impl_6 {
+    use super::*; 
+    use std::iter;
+    use std::cmp;
+
+    pub struct MergeSort; 
+
+    impl /*Sorter for */ MergeSort { 
+        
+        /** 
+         * In-place merge left/right partitions of slice
+         * 
+         * Assuming both left and right partitions are sorted themselves
+         */
+        fn merge<T, F>(slice: &mut [T], compare: &F, right: usize) where T: Ord, F: Fn(&T, &T) -> bool { 
+            let n = slice.len(); 
+            let (mut i, mut j) = (0, right); // partition starting points
+            
+            while i < j && j < n { 
+                if compare(&slice[i], &slice[j]) { 
+                    slice[i..=j].rotate_right(1); 
+                    j += 1; 
+                }
+
+                i += 1; 
+            }
+
+        }
+
+        pub fn sort<T, F>(slice: &mut [T], compare: &F) where T: Ord, F: Fn(&T, &T) -> bool { 
+            let n = slice.len(); 
+
+            // generate window sizes up until last size engulfing `n` elements
+            let window = { 
+                let mut counter = 1; 
+
+                let pow_2 = iter::from_fn(move || {
+                    let p = 2usize.pow(counter); 
+                    counter += 1; 
+                    Some(p)
+                }); 
+
+                pow_2.take_while(|&p| p < n * 2)
+            };
+
+            // divide elements list by window size
+            let slide = |w: usize| {
+                let mut l = 0;  
+            
+                iter::from_fn(move || { 
+                    if l >= n { 
+                        return None;
+                    }
+
+                    let h = l + w - 1; // last element in window
+                    let m = l + w / 2; 
+
+                    let tuple = (l, m, h); 
+
+                    l += w; 
+
+                    Some(tuple)
+                }).filter_map(|(l, m, mut h)| { // adjust for remaining elements at end
+                    if m >= n { 
+                        return None; 
+                    }
+
+                    if(h >= n) { 
+                        h = n - 1;
+                    }
+
+                    Some((l,m,h ))
+                })
+            }; 
+
+
+            for w in window {  // 2, 4, 8, 16, .. up until the required power correspodning to the `n` values; 
+                for (l, m, h) in slide(w) { 
+                    let slice = &mut slice[l..=h];
+                    Self::merge(slice, compare, m - l); 
                 }
             }
         }
