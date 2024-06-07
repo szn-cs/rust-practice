@@ -227,13 +227,84 @@ pub mod impl_3 {
  * Non-recursive iterative equivalent
  */
 pub mod impl_4 {
+    use super::*;
+    use std::collections::VecDeque;
+
     pub struct QuickSort;
 
-    pub fn sort<T, F>(slice: &mut [T], compare: &F)
-    where
-        T: Ord,
-        F: Fn(&T, &T) -> bool,
-    {
-        // TODO: use queue datastructure to keep track of "stack frames" as equivalent to recusrive calls.
+    impl QuickSort {
+        pub fn sort<T, F>(slice: &mut [T], compare: &F)
+        where
+            T: Ord,
+            F: Fn(&T, &T) -> bool,
+        {
+            let mut queue = VecDeque::new();
+
+            queue.push_back(slice);
+
+            while !queue.is_empty() {
+                let slice = queue.pop_front().unwrap();
+
+                match slice.len() {
+                    0 | 1 => continue,
+                    2 => {
+                        if compare(&slice[0], &slice[1]) {
+                            slice.swap(0, 1);
+                        }
+                        continue;
+                    }
+                    _ => {}
+                }
+
+                // perform partition by pivot and sort
+                let (left, right) = {
+                    // choose appropriate pivot
+                    // let pick_pivot = |slice: &mut [T]| slice.len() / 2;
+                    let pick_pivot = |slice: &mut [T]| 0;
+                    let pivot = pick_pivot(slice); // index of pivot
+
+                    // partition to left/right portions
+                    slice.swap(0, pivot); // move pivot out of the way
+                    let (pivot, remain) = slice.split_first_mut().expect("slice is non-empty"); // remaining slice excluding pivot
+
+                    let split = {
+                        let mut left = 0; // bounds: [0, len]
+                        let mut right: usize = remain.len() - 1; // bounds: [overflow -1, len-1]
+
+                        for _ in 0..remain.len() {
+                            if left > right {
+                                break;
+                            }
+
+                            if remain[left] < *pivot {
+                                left += 1;
+                                // println!("left = {}", left);
+                            } else if remain[right] > *pivot {
+                                right = right.wrapping_sub(1);
+                                // println!("right = {}", right);
+                            } else {
+                                remain.swap(left, right);
+                                left += 1;
+                                right = right.wrapping_sub(1);
+                            };
+                        }
+
+                        left
+                    };
+
+                    // place pivot in its final adjusted position
+                    let first_right = split; // first element in right
+                    slice.swap(0, first_right);
+
+                    let (left, right) = slice.split_at_mut(split);
+                    let (_, right) = right.split_first_mut().expect("slice is non-empty"); // adjust to exclude pivot
+
+                    (left, right)
+                };
+
+                queue.push_back(left);
+                queue.push_back(right);
+            }
+        }
     }
 }
