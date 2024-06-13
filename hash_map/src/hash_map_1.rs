@@ -42,7 +42,7 @@ where
 {
     fn insert(&mut self, key: K, value: V) -> Option<V> {
         // resize if full/overloaded (e.g. 3/4 full)
-        if self.len == 0 || self.len >= 3 * self.bucket_list.len() / 4 {
+        if self.bucket_list.len() == 0 || self.len >= 3 * self.bucket_list.len() / 4 {
             self.extend();
         }
         assert!(self.len < self.bucket_list.len());
@@ -95,6 +95,7 @@ where
             for (i, &mut (ref k, _)) in bucket.iter_mut().enumerate() {
                 if k == key {
                     p = Some(i);
+                    break;
                 }
             }
             p

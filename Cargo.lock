@@ -18,6 +18,10 @@ name = "concept"
 version = "0.1.0"
 
 [[package]]
+name = "graph"
+version = "0.1.0"
+
+[[package]]
 name = "hash_map"
 version = "0.1.0"
 dependencies = [
@@ -52,4 +56,8 @@ dependencies = [
 
 [[package]]
 name = "specification"
+version = "0.1.0"
+
+[[package]]
+name = "vector"
 version = "0.1.0"

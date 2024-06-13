@@ -31,6 +31,9 @@
 ## sorting algos
 - https://www.youtube.com/watch?v=h4RkCyJyXmM
 
+## B-tree
+- https://faultlore.com/blah/rust-btree-case/ 
+
 ### Miscellaneous  
 - https://aloso.github.io/2021/03/09/creating-an-iterator#a-traverse-method
 - https://geo-ant.github.io/blog/2023/unsafe-rust-exploration/#fnref:safeapi

@@ -2,12 +2,15 @@
 
 std::rc::{Rc, Weak}; 
 std::cell::{RefCell, Cell}; 
-std::sync::{Mutex, MutexGuard, Arc}; 
+std::sync::{Mutex, MutexGuard, RwLock, Arc, mpsc}; 
+    - std::thread
 std::boxed::Box; 
 std::option::Option; 
-std::ptr::NonNull; 
-std::marker::PhantomData; 
-std::mem::{replace, swap, take, size_of, align_of}
+std::ptr::{NonNull, null()/null_mut(), drop_in_place(*mut T)}; //  matching *const T and *mut T types 
+std::marker::{PhantomData, Copy, Send /*mutable access*/, Sync /*immutable access*/, Sized}; 
+std::mem::{replace, swap, take, size_of, align_of, drop}
+std::alloc::Layout::{new, array} // layout of mem passed to allocator
+std::alloc::{dealloc(*mut u8, Layout), alloc(Layout)}
 
 std::ops::{Fn, FnMut, FnOnce}
 std::ops::{Drop}
@@ -17,16 +20,22 @@ std::cmp::{Eq, PartialEq, Ordering, Ord}
 std::fmt::{Debug, Display, Formatter};
 
 ## Collections
-std::collections::{VecDeque, LinkedList, HashMap, BTreeMap, HashSet, BTreeSet, BinaryHeap};
+std::collections::{VecDeque, LinkedList, BinaryHeap, HashMap, BTreeMap, HashSet, BTreeSet};
 std::collections::hash_map::DefaultHasher; 
+// implement indexing
+std::ops::{Index, IndexMut}; 
+
 
 
 # API
 
 std::vec::Vec
-- .swap_remove
 - .extend_from_slice
 - .extend
+- .swap_remove(usize)
+- .remove(usize) // i.e. remove shift
+std::collections::VecDequeue
+- .make_contiguous()
 
 std::option::Option
 - .take()
@@ -37,8 +46,21 @@ std::boxed::Box
 - .as_ptr_mut() // convert
 
 std::ptr::NonNull
-- .as_ptr() 
-- .as_mut() 
+- .as_ptr() -> *mut T
+- .as_ref()/.as_mut()
+- .write()
+
+raw pointers: *const/*mut T
+- .offset(i) 
+- .write => std::ptr::write(*mut T, T)
+- .read()
+- .is_null()
+- .drop_in_place() => std::ptr::drop_in_place
+- .copy_nonovelapping => std::ptr::copy_nonovelapping(*const T, *mut T, usize)
+- .copy => std::ptr::copy(...)
+
+conversion: 
+- .try_into().expect("")
 
 std::iter::Iterator
     - .extend
@@ -56,6 +78,7 @@ std::iter::Iterator
     - .repeat
     - .take
     - .chain
+    - .for_each
 std::iter::from_fn
     - .take()
     - .take_while()
@@ -67,7 +90,8 @@ slice
 - .sort_by
 - .sort_by_key
 - .binary_search_by
-- .rotate_right
+- .rotate_right 
+- slice::from_raw_slices(*const T, usize)
 
 ParialOrd: 
 - .parial_cmp -> Ordering
@@ -96,134 +120,6 @@ use rand::Rng; let x = rand::random::<usize>();
 - cargo clippy
 - cargo miri
 
-# examples
-
-- lifetime reference annotations
-```
-let ref = books.iter().next().unwrap(); 
-std::mem::drop(books); 
-// ref through lifetime annotation is tied/associated to the books lifetime. 
-```
-
-- destructure references
-```
-for (&k, &v) in &hash_map { // assume hash_map.iter() iterator returns type items of (&'a K, &'a V) where HashMap<'a, K, V> 
-    match k { // note type of k is the value referred to by &k
-        "str" => assert_eq!(v, 42); 
-        _ => {}
-    }
-}
-```
-
-- bind to outer/whole value
-```
-match bucket.pop() { 
-    x @ Some(_) => break x, 
-    _ => {}
-}
-```
-
-- variable binding in patterns
-```
-for &mut (ref ekey, ref mut evalue) in bucket.iter_mut() { // ref and ref mut are not being matched against but define how to bind the variables created. 
-    if ekey == &key {
-        return Some(mem::replace(evalue, value));
-    }
-}
-```
-
-- mutability of reference vs binding: 
-```
-let mut x = &mut y; // both value is mutable reference and x variable binding is mutable which can change location pointing to. 
-```
-
-- ignore/empty errors
-```
-fn do_something() -> Result<i32, ()> {
-    if true { 
-        Result::Ok(123)
-    } else {
-        Result::Err( () )
-    }
-}
-```
-- accept any error
-```
-fn do_something() -> Result<(), Box<dyn std::error::Error>> {
-    if true { 
-        Ok(())
-    } else { 
-        Err(format!("{}", "something"))
-    }
-}
-```
-
-- define function as params with static dispatch
-```
-fn func(f: impl Fn(i3s) -> i32) {
-    f(10);
-}
-```
-- using traits generics 
-```
-fn func<F>(f: F) where F: Fn()->() { 
-    f();
-}
-```
-
-- swap elements in vector
-```
-pub fn swap<T>(arr: &mut [T], i: usize, j: usize) {
-    let (low, high) = match i.cmp(&j) {
-        Ordering::Less => (i, j),
-        Ordering::Greater => (j, i),
-        Ordering::Equal => return,
-    };
-    
-    let (a, b) = arr.split_at_mut(high); // to allow multiple mutable references on different objects (assuming left/right disjoint)
-    
-    std::mem::swap(&mut a[low], &mut b[0]);
-}
-```
-
-- interface for free-standing functions with as an extension approach 
-```
-trait Sorter { 
-    fn sort<T>(slice: &mut [T]) where T: Ord; 
-}
-
-fn sort<T, S>(slice: &mut [T]) where T: Ord, S: Sorter { 
-    S::sort(slice); // redirect input to specific implementation
-}
-
-fn main() { 
-    struct StdSort; // define a custom implementation
-    impl Sorter for StdSort { 
-        fn sort<T>(slice: &mut [T]) where T: Ord { 
-            slice.sort(); 
-        }
-    }
-
-    let mut things = vec![4,3,2,1]; 
-    sort::<_, StdSort>(&mut things); 
-}
-```
-
-- std::mem::copy of slice to another
-```
-    fn f<T: Copy>(s1: &mut [T], s2: &mut [T]) { 
-        let s1 = vec![T::default(); 5]; 
-        let s2 = vec![1,2,3,4,5];
-
-        s1.copy_from_slice(s2);        
-    }
-
-
-    // another way
-    for (dst, src) in dst.iter_mut().zip(src) { *dst = *src }
-
-```
-
 # notes: 
 - shared ref, mut unique ref, owned. 
 - std::vec::Vec -> pointer to contiguous mem, capacity, len; 
@@ -249,3 +145,7 @@ fn main() {
     - O(log n) heapify down (doens't require entire tree heapify).
     - important to preserve complete binary tree property. 
     - heap sort: delete elements and place them in the freed cell will result in sorted elements.
+- for a sharable type to be sync it has to be send. Rules: if variable can be mutably referenced (& ops like move ownership, drop, mutate) from a thread other than the creating one => Send; If for a variable is allowed to make immutable parallel access from several threads => Sync. https://www.youtube.com/watch?v=eRxqX5_UxaY 
+- &mut T isn't allowed to be aliased. 
+- variane := defines mechanism to devise wether one type can be downgraded into another, taking into account lifetimes of the parameters, with relations of subtypes.
+    - It defines which lifetimes can be downgraded in place of arguemnts or upgraded for return parameters in functions for example. 

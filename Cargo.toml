@@ -9,11 +9,11 @@ channel = "nightly"
 [workspace]
 members = [
     "binary_heap", "coding_problem",
-    "concept",
+    "concept", "graph",
     "hash_map",
     "single_linked_list",
     "sort",
-    "specification",
+    "specification", "vector",
 ]
 
 [dependencies]
