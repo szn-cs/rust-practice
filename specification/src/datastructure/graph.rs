@@ -6,7 +6,18 @@ pub trait AdjacencyMatrix {
 
 pub trait AdjacencyList {
     /*
-     * list: Vec<LinkedList<(usize, usize)>>     => tuples of node index and weight
-     * list: Vec<Vec<(usize, usize)>>     => better cache performance
+    * list: Vec<LinkedList<(usize, usize)>>     => tuples of node index and weight
+    OR
+    * list: Vec<Vec<(usize, usize)>>             => better cache performance
+    */
+
+    // OR
+
+    /*
+     *  type EdgeValue = i32; // value of node
+     *  type NodeValue = i32; // value of node
+     *
+     *  vertex: HashMap<u64, NodeValue>
+     *  adjacency: HashMap<u64, Vec<(u64, EdgeValue)>>
      */
 }
