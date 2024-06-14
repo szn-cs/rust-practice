@@ -105,6 +105,10 @@ std::iter::{Iterator, IntoIterator};
 ## Trait constraint
 where V: ?Sized  // where V doesn't have to be sized, useful if V is used as reference &V 
 
+# primitive
+- .ceil/.floor()    => f64/f32
+- .round() 
+
 # macros
 panic!() / unreachable!()
 todo!() / unimplemented!()
@@ -149,3 +153,4 @@ use rand::Rng; let x = rand::random::<usize>();
 - &mut T isn't allowed to be aliased. 
 - variane := defines mechanism to devise wether one type can be downgraded into another, taking into account lifetimes of the parameters, with relations of subtypes.
     - It defines which lifetimes can be downgraded in place of arguemnts or upgraded for return parameters in functions for example. 
+- division of integers without convertion: let (remaining, fraction) = (end * 1000 / 2 % 1000, end / 2);
