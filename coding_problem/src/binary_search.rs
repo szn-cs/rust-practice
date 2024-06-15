@@ -111,7 +111,74 @@ pub mod impl_2 {
 /**
  * Iterative
  */
-pub mod impl_3 {}
+pub mod impl_3 {
+    use super::*;
+    use std::cmp::{Ord, Ordering};
+
+    pub struct IterativeBinarySearch;
+
+    impl BinarySearch for IterativeBinarySearch {
+        fn search<T: Ord + Debug>(slice: &[T], target: &T) -> Option<usize> {
+            // check requirements/boundaries and trivial cases:
+            match slice.len() {
+                0 => {
+                    return None;
+                }
+                1 => {
+                    // trivial cases
+                    return if &slice[0] == target { Some(0) } else { None };
+                }
+                _ => {}
+            }
+
+            Self::search_bound(slice, target, 0, slice.len() - 1)
+        }
+    }
+
+    impl IterativeBinarySearch {
+        fn search_bound<T>(
+            slice: &[T],
+            target: &T,
+            mut left: usize,
+            mut right: usize,
+        ) -> Option<usize>
+        where
+            T: Ord + Debug,
+        {
+            if left > right || left >= slice.len() && right >= slice.len() {
+                return None;
+            }
+
+            assert!(slice.len() >= 2);
+
+            let mut index = None;
+
+            while left <= right {
+                let middle = ((left + right) as f64 / 2_f64).floor() as usize;
+                // dbg!(middle);
+
+                match target.cmp(&slice[middle]) {
+                    Ordering::Equal => {
+                        index = Some(middle);
+                        break;
+                    }
+                    Ordering::Greater => {
+                        left = middle + 1;
+                    }
+                    Ordering::Less => {
+                        right = if let Some(r) = middle.checked_sub(1) {
+                            r
+                        } else {
+                            break;
+                        }
+                    }
+                };
+            }
+
+            index
+        }
+    }
+}
 
 #[cfg(test)]
 mod tests_binary_search {
@@ -161,6 +228,47 @@ mod tests_binary_search {
     mod test_impl_2 {
         use super::super::*;
         use impl_2::RecursiveBinarySearch as BS;
+
+        #[test]
+        fn odd_length() {
+            let v = vec![3, 5, 8, 9, 20, 50, 55, 60, 65, 66]; // n = 9
+
+            let target = 5;
+            assert_eq!(BS::search::<i32>(&v, &target), Some(1));
+            let target = 6;
+            assert_eq!(BS::search::<i32>(&v, &target), None);
+            let target = 65;
+            assert_eq!(BS::search::<i32>(&v, &target), Some(8));
+            let target = 66;
+            assert_eq!(BS::search::<i32>(&v, &target), Some(9));
+        }
+
+        #[test]
+        fn empty_list() {
+            let v = vec![];
+
+            let target = 5;
+            assert_eq!(BS::search::<i32>(&v, &target), None);
+            let target = -1;
+            assert_eq!(BS::search::<i32>(&v, &target), None);
+        }
+
+        #[test]
+        fn negative_values() {
+            let v = vec![-10, -1, 0, 1, 11];
+
+            let target = 5;
+            assert_eq!(BS::search::<i32>(&v, &target), None);
+            let target = -1;
+            assert_eq!(BS::search::<i32>(&v, &target), Some(1));
+        }
+
+        // additional tests: single element, two elements, duplicate elements
+    }
+
+    mod test_impl_3 {
+        use super::super::*;
+        use impl_3::IterativeBinarySearch as BS;
 
         #[test]
         fn odd_length() {
