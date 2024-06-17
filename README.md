@@ -8,6 +8,10 @@
 - https://rust-unofficial.github.io/too-many-lists/
 - https://www.youtube.com/watch?v=EF3Z4jdD1EQ
 - https://github.com/jonhoo https://www.youtube.com/@jonhoo 
+- https://github.com/o8vm/ods?tab=readme-ov-file
+    - https://vmm.dev/en/rust/ods.md
+    - interfaces: https://github.com/o8vm/ods/blob/master/chapter01/src/interface.rs
+- https://github.com/lanjoni/rust-data-structure/tree/main  
 
 ### Linked list
 - https://betterprogramming.pub/learning-rust-building-a-linked-list-102bcb08f93b

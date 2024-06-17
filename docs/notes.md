@@ -4,7 +4,7 @@ std::rc::{Rc, Weak};
 std::cell::{RefCell, Cell}; 
 std::sync::{Mutex, MutexGuard, RwLock, Arc, mpsc}; 
     - std::thread
-std::boxed::Box; 
+std::boxed::Box;
 std::option::Option; 
 std::ptr::{NonNull, null()/null_mut(), drop_in_place(*mut T)}; //  matching *const T and *mut T types 
 std::marker::{PhantomData, Copy, Send /*mutable access*/, Sync /*immutable access*/, Sized}; 
@@ -25,9 +25,12 @@ std::collections::hash_map::DefaultHasher;
 // implement indexing
 std::ops::{Index, IndexMut}; 
 
-
-
 # API
+
+std::string::String
+- .push_str(&mut self, &str)
+- .push(&mut self, char)
+
 
 std::vec::Vec
 - .extend_from_slice
@@ -44,6 +47,9 @@ std::boxed::Box
 - .into_raw() // consume
 - .from_raw() // reclaim leaked memory
 - .as_ptr_mut() // convert
+boxed slice: 
+- .into_boxed_slice()
+
 
 std::ptr::NonNull
 - .as_ptr() -> *mut T
