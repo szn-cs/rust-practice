@@ -1,7 +1,3 @@
-# Reference
-
-std::rc::{Rc, Weak}; 
-std::cell::{RefCell, Cell}; 
 std::sync::{Mutex, MutexGuard, RwLock, Arc, mpsc}; 
     - std::thread
 std::boxed::Box;
@@ -11,13 +7,13 @@ std::marker::{PhantomData, Copy, Send /*mutable access*/, Sync /*immutable acces
 std::mem::{replace, swap, take, size_of, align_of, drop}
 std::alloc::Layout::{new, array} // layout of mem passed to allocator
 std::alloc::{dealloc(*mut u8, Layout), alloc(Layout)}
-
 std::ops::{Fn, FnMut, FnOnce}
+-   std::cmp::min;
+std::fmt::{Debug, Display, Formatter};
+std::borrow::Borrow; 
+std::iter::{Iterator, IntoIterator};  
 std::ops::{Drop}
 std::cmp::{Eq, PartialEq, Ordering, Ord}
--   std::cmp::min;
-
-std::fmt::{Debug, Display, Formatter};
 
 ## Collections
 std::collections::{VecDeque, LinkedList, BinaryHeap, HashMap, BTreeMap, HashSet, BTreeSet};
@@ -30,7 +26,6 @@ std::ops::{Index, IndexMut};
 std::string::String
 - .push_str(&mut self, &str)
 - .push(&mut self, char)
-
 
 std::vec::Vec
 - .extend_from_slice
@@ -50,11 +45,12 @@ std::boxed::Box
 boxed slice: 
 - .into_boxed_slice()
 
-
 std::ptr::NonNull
 - .as_ptr() -> *mut T
 - .as_ref()/.as_mut()
 - .write()
+
+std::ptr::eq(*const T, *const T) -> bool
 
 raw pointers: *const/*mut T
 - .offset(i) 
@@ -64,6 +60,66 @@ raw pointers: *const/*mut T
 - .drop_in_place() => std::ptr::drop_in_place
 - .copy_nonovelapping => std::ptr::copy_nonovelapping(*const T, *mut T, usize)
 - .copy => std::ptr::copy(...)
+___
+</br>
+
+# std::cell::{Cell, RefCell}
+- provide interior mutability where it is not allowed; allows to imulate field-level mutability.
+
+## std::cell::Cell
+    - .get(&self) -> T
+    - .set(&self, T)
+    - misc: 
+        - .replace(&self, T) -> T
+        - .into_inner(self) -> T
+        - .take(&self) -> T // leaving default in place
+        - .get_mut(&mut self) -> &mut T  // defeats purpose; use RefCell instead
+        - .as_ptr(&self) -> *mut T
+## std::cell::RefCell
+    - .borrow/borrow_mut(&self)  → Ref/RefMut<'_, T> 
+        - .try_borrow/try_borrow_mut(&self) → Result<Ref/RefMut<'_, T>, BorrowError/BorrowMutError> 
+    - misc:
+        - .into_inner(self)                     // consumes wrapper, returning value
+        - .take(&self)                          // leave default instead
+        - .replace(&self, T)                    // corresponds to std::mem::replace
+        - .get_mut(&mut self) -> &mut T         // statically checked only possible in some cases for performance
+        - .as_ptr(&self) -> *mut T
+
+# std::rc::{Rc, Weak}
+- Rc<RefCell<T>>    =>    Arc<Mutex<T>> 
+- Rc owning pointer  -downgrade->  Weak non-owning pointer
+    - mutual owning references prevent deallocating either Rc.  
+
+## std::rc::Rc
+    - Rc::clone()
+    - Rc::downgrade(&Rc<T>) -> Weak<T>  
+    - misc:
+        - Rc::strong_count/weak_count(&Rc<T>) -> usize
+        - Rc::as_ptr(&Rc<T>) -> *const T
+            - Rc::get_mut(&mut value) -> Option<&mut T>                                 // succeeds on single strong reference
+                - Rc::make_mut(&mut Rc<T>) -> &mut T                                    // clones values if more than 1 reference; deassociates all Weak references
+        - Rc::into_inner(Rc<T>) -> Option<T>    ==   Rc::try_unwrap(Rc<T>).ok()         // succeeds on single strong reference
+            - Rc::try_unwrap(Rc<T>) -> Result<T, Rc<T>>                             
+            - Rc::unwrap_or_clone(Rc<T>) -> T
+        - Rc::into_raw(Rc<T>) -> *const T                                               // consumes Rc       
+        - Rc::from_raw(*const T) -> Rc<T>
+        - Rc::increment_strong_count/decrement_strong_count(*const T)
+        - Rc::ptr_eq(&Rc<T>, &Rc<T>) -> bool 
+
+## std::rc::Weak
+    - .upgrade(&self) -> Option<Rc<T>>
+    - misc: 
+        - .as_ptr(&self) -> *const T
+        - .into_raw(self) -> *const T
+        - Weak::from_raw(*const T) -> Weak<T>
+        - .ptr_eq(&self, &Weak<T>) -> bool
+        - .weak_count/strong_count(&self) -> usize
+
+# std::sync::{Arc, Weak}
+- similar to std::rc::{Rc, Weak}; 
+
+___ 
+</br>
 
 conversion: 
 - .try_into().expect("")
@@ -104,10 +160,6 @@ ParialOrd:
 Ord: 
 - .cmp -> Ordering
 
-# Traits
-std::borrow::Borrow; 
-std::iter::{Iterator, IntoIterator};  
-
 ## Trait constraint
 where V: ?Sized  // where V doesn't have to be sized, useful if V is used as reference &V 
 
@@ -131,8 +183,8 @@ use rand::Rng; let x = rand::random::<usize>();
 - cargo miri
 
 # notes: 
-- shared ref, mut unique ref, owned. 
-- std::vec::Vec -> pointer to contiguous mem, capacity, len; 
+- owned vs shared ref and mut unique ref;
+- Interior mutability: modifiable even behind shred-reference.  
 - std::collections::VecDeque -> growable ring buffer (vector wrapping around) with start & end pointers to specify initialized region. Can implement both stack and queue;
     - Disadv.: Defragmentation may lead to slightly less efficient caching. Has extra overhead for calculating every index (to take account for wrapping). Doesn't implement deref to slice because of fragmentation. 
 - std::collecitons::HashMap -> sparsity property (remedied by resizing # of buckets); 

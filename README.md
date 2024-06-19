@@ -45,3 +45,5 @@
 - https://cliffle.com/p/dangerust/
 - https://rust-lang.github.io/api-guidelines/about.html
 - article BTreeMap implementation https://cglab.ca/~abeinges/blah/rust-btree-case/
+- cheatsheet https://cheats.rs/
+- cheatsheet https://cheatography.com/tag/rust/
