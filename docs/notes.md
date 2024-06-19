@@ -1,58 +1,46 @@
-std::sync::{Mutex, MutexGuard, RwLock, Arc, mpsc}; 
-    - std::thread
-std::boxed::Box;
-std::option::Option; 
-std::ptr::{NonNull, null()/null_mut(), drop_in_place(*mut T)}; //  matching *const T and *mut T types 
+std::fmt::{Debug, Display, Formatter};
+std::ops::{Fn, FnMut, FnOnce}
+-   std::cmp::{min/max};
 std::marker::{PhantomData, Copy, Send /*mutable access*/, Sync /*immutable access*/, Sized}; 
 std::mem::{replace, swap, take, size_of, align_of, drop}
 std::alloc::Layout::{new, array} // layout of mem passed to allocator
 std::alloc::{dealloc(*mut u8, Layout), alloc(Layout)}
-std::ops::{Fn, FnMut, FnOnce}
--   std::cmp::min;
-std::fmt::{Debug, Display, Formatter};
 std::borrow::Borrow; 
 std::iter::{Iterator, IntoIterator};  
 std::ops::{Drop}
 std::cmp::{Eq, PartialEq, Ordering, Ord}
 
-## Collections
-std::collections::{VecDeque, LinkedList, BinaryHeap, HashMap, BTreeMap, HashSet, BTreeSet};
-std::collections::hash_map::DefaultHasher; 
-// implement indexing
-std::ops::{Index, IndexMut}; 
+# primitive
+- .ceil/.floor()    => f64/f32
+- .round() 
 
-# API
-
-std::string::String
+## std::string::String
 - .push_str(&mut self, &str)
 - .push(&mut self, char)
 
-std::vec::Vec
-- .extend_from_slice
-- .extend
-- .swap_remove(usize)
-- .remove(usize) // i.e. remove shift
-std::collections::VecDequeue
-- .make_contiguous()
-
-std::option::Option
+## std::option::Option
 - .take()
+- .is_some/is_none() -> bool
 
-std::boxed::Box
+## std::boxed::Box
 - .into_raw() // consume
 - .from_raw() // reclaim leaked memory
 - .as_ptr_mut() // convert
+- leak functions: leaves allocated memory on heap never deallocating them and returns *mut pointer. 
 boxed slice: 
 - .into_boxed_slice()
 
-std::ptr::NonNull
+# pointers
+- std::ptr::eq(*const T, *const T) -> bool
+- std::ptr::{NonNull, null()/null_mut(), drop_in_place(*mut T)}; //  matching *const T and *mut T types 
+
+## std::ptr::NonNull
+- Option<NonNull<T>> // None = discriminant 0x0 value of NonNull
 - .as_ptr() -> *mut T
 - .as_ref()/.as_mut()
 - .write()
 
-std::ptr::eq(*const T, *const T) -> bool
-
-raw pointers: *const/*mut T
+## *const/*mut T
 - .offset(i) 
 - .write => std::ptr::write(*mut T, T)
 - .read()
@@ -118,8 +106,37 @@ ___
 # std::sync::{Arc, Weak}
 - similar to std::rc::{Rc, Weak}; 
 
+# std::sync::{Mutex, MutexGuard, RwLock, mpsc}
+
+# std::thread::{park/unpark, scope, spawn, sleep}
+
+# std::collections::{VecDeque, LinkedList, BinaryHeap, HashMap, BTreeMap, HashSet, BTreeSet};
+- std::collections::hash_map::DefaultHasher; 
+- std::ops::{Index, IndexMut};  // implement indexing
+
+## std::vec::Vec
+- .extend_from_slice
+- .extend
+- .swap_remove(usize)
+- .remove(usize) // i.e. remove shift
+
+## slice
+- .split_at_mut
+- .copy_from_slice
+- .clone_from_slice
+- .sort_by
+- .sort_by_key
+- .binary_search_by
+- .rotate_right 
+- slice::from_raw_slices(*const T, usize)
+
+## std::collections::VecDequeue
+- .make_contiguous()
+
+
 ___ 
 </br>
+
 
 conversion: 
 - .try_into().expect("")
@@ -145,38 +162,20 @@ std::iter::from_fn
     - .take()
     - .take_while()
 
-slice
-- .split_at_mut
-- .copy_from_slice
-- .clone_from_slice
-- .sort_by
-- .sort_by_key
-- .binary_search_by
-- .rotate_right 
-- slice::from_raw_slices(*const T, usize)
-
 ParialOrd: 
 - .parial_cmp -> Ordering
 Ord: 
 - .cmp -> Ordering
-
-## Trait constraint
-where V: ?Sized  // where V doesn't have to be sized, useful if V is used as reference &V 
-
-# primitive
-- .ceil/.floor()    => f64/f32
-- .round() 
 
 # macros
 panic!() / unreachable!()
 todo!() / unimplemented!()
 
 # crates
-use rand::Rng; let x = rand::random::<usize>(); 
-
-# other patterns
-- Option<NonNull<T>> // None = discriminant 0x0 value of NonNull
-- leak functions: leaves allocated memory on heap never deallocating them and returns *mut pointer. 
+```
+use rand::Rng; 
+let x = rand::random::<usize>(); 
+```
 
 # tools
 - cargo clippy
@@ -212,3 +211,4 @@ use rand::Rng; let x = rand::random::<usize>();
 - variane := defines mechanism to devise wether one type can be downgraded into another, taking into account lifetimes of the parameters, with relations of subtypes.
     - It defines which lifetimes can be downgraded in place of arguemnts or upgraded for return parameters in functions for example. 
 - division of integers without convertion: let (remaining, fraction) = (end * 1000 / 2 % 1000, end / 2);
+- where V: ?Sized  // where V doesn't have to be sized, useful if V is used as reference &V 
