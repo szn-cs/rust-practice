@@ -7,12 +7,13 @@ std::alloc::Layout::{new, array} // layout of mem passed to allocator
 std::alloc::{dealloc(*mut u8, Layout), alloc(Layout)}
 std::borrow::Borrow; 
 std::iter::{Iterator, IntoIterator};  
-std::ops::{Drop}
+std::ops::{Drop, Deref<Target = T>}
 std::cmp::{Eq, PartialEq, Ordering, Ord}
 
-# primitive
-- .ceil/.floor()    => f64/f32
+# f64/f32 primitive
+- .ceil/.floor()  
 - .round() 
+- .sqrt()  
 
 ## std::string::String
 - .push_str(&mut self, &str)
@@ -51,9 +52,11 @@ boxed slice:
 ___
 </br>
 
-# std::cell::{Cell, RefCell}
+# std::cell::{Cell, RefCell, Ref<'b, T>, RefMut<'b, T>}
 - provide interior mutability where it is not allowed; allows to imulate field-level mutability.
 
+## Ref
+    - Ref::clone(&Ref<'b, T>)
 ## std::cell::Cell
     - .get(&self) -> T
     - .set(&self, T)
@@ -115,10 +118,41 @@ ___
 - std::ops::{Index, IndexMut};  // implement indexing
 
 ## std::vec::Vec
-- .extend_from_slice
-- .extend
-- .swap_remove(usize)
-- .remove(usize) // i.e. remove shift
+    - .push(&mut self, T)
+    - .pop(&mut self) -> Option<T>
+    - misc: 
+        - .insert(&mut self, usize, T)              // shift insert
+        - .remove(&mut self, usize) -> T                 //  shift remove
+            - .swap_remove(&mut self, usize) -> T
+        - .extend
+            - .extend_from_slice
+
+## std::collections::VecDeque
+    - push_back, push_front, pop_back, pop_front 
+    - misc: 
+        - front_mut/back_mut
+
+## std::collections::LinkedList
+    - push_back, push_front, pop_back, pop_front
+    - misc: 
+        - front_mut/back_mut
+        - .remove
+        - [insert] = split + push_back + append 
+
+## std::collections::BinaryHeap
+    - push, pop, peak_mut
+    - misc: 
+        - .into_vec
+
+## std::collections::{HashMap, BTreeMap}
+    - insert, remove, get_mut
+    - misc: 
+        - contains_key
+        - keys, values 
+        - from 
+
+## std::collections::{HashSet, BTreeSet}
+    - insert, remove, contains
 
 ## slice
 - .split_at_mut
@@ -212,3 +246,4 @@ let x = rand::random::<usize>();
     - It defines which lifetimes can be downgraded in place of arguemnts or upgraded for return parameters in functions for example. 
 - division of integers without convertion: let (remaining, fraction) = (end * 1000 / 2 % 1000, end / 2);
 - where V: ?Sized  // where V doesn't have to be sized, useful if V is used as reference &V 
+- `let title_text = title.text().trim();`: FAILS because nothing binds text() String to context, thus trim() references temporary value in statement.
