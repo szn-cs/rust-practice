@@ -108,10 +108,14 @@ pub mod impl_2 {
     }
 }
 
+pub mod impl_3 {
+    // TODO: another approach to prevent dealing with underflow is to set low and high (left, right) indecies to mean the range: [low, high); thus [0, len) and [0,1) would represent beginning range and possibly ending range. The while loop would exit when low < high is violated.
+}
+
 /**
  * Iterative
  */
-pub mod impl_3 {
+pub mod impl_4 {
     use super::*;
     use std::cmp::{Ord, Ordering};
 
@@ -266,9 +270,9 @@ mod tests_binary_search {
         // additional tests: single element, two elements, duplicate elements
     }
 
-    mod test_impl_3 {
+    mod test_impl_4 {
         use super::super::*;
-        use impl_3::IterativeBinarySearch as BS;
+        use impl_4::IterativeBinarySearch as BS;
 
         #[test]
         fn odd_length() {
