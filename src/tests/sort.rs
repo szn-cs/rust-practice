@@ -27,6 +27,12 @@ fn bubble_sort_test() {
         sort::<_, BubbleSorter, _>(&mut l[..], |&a, &b| a > b);
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
+    {
+        use sort::bubble_sort::impl_5::BubbleSorter;
+        let mut l = vec![5, 4, 3, 2, 1];
+        sort::<_, BubbleSorter, _>(&mut l[..], |&a, &b| a > b);
+        assert_eq![l, vec![1, 2, 3, 4, 5]];
+    }
 }
 
 #[test]

@@ -125,3 +125,38 @@ pub mod impl_4 {
         }
     }
 }
+
+/**
+ * optimize: avoid repeated work with fixed elements.
+ *
+ * O(n^2) T | O(1) S
+ */
+pub mod impl_5 {
+    use super::*;
+
+    pub struct BubbleSorter;
+
+    impl Sorter for BubbleSorter {
+        fn sort<T, F>(slice: &mut [T], compare: F)
+        where
+            T: Ord,
+            F: Fn(&T, &T) -> bool,
+        {
+            let mut swapped = true;
+            for j in 0..slice.len() - 1 {
+                if !swapped {
+                    break; // break early if last sweep happened on sorted list
+                }
+
+                swapped = false;
+                // sweep array swapping to position an element in correct position (ends up being last element)
+                for i in 0..(slice.len() - 1 - j) {
+                    if (compare)(&slice[i], &slice[i + 1]) {
+                        slice.swap(i, i + 1);
+                        swapped = true;
+                    }
+                }
+            }
+        }
+    }
+}
