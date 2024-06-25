@@ -10,7 +10,7 @@ channel = "nightly"
 members = [
     "binary_heap", "coding_problem",
     "concept", "graph",
-    "hash_map",
+    "hash_map", "prefix_tree",
     "single_linked_list",
     "sort",
     "specification", "tree", "vector",

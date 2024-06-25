@@ -20,6 +20,9 @@ version = "0.1.0"
 [[package]]
 name = "graph"
 version = "0.1.0"
+dependencies = [
+ "specification",
+]
 
 [[package]]
 name = "hash_map"
@@ -27,6 +30,10 @@ version = "0.1.0"
 dependencies = [
  "specification",
 ]
+
+[[package]]
+name = "prefix_tree"
+version = "0.1.0"
 
 [[package]]
 name = "rust_practice"
