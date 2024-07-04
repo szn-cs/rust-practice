@@ -13,7 +13,7 @@ members = [
     "hash_map", "prefix_tree",
     "single_linked_list",
     "sort",
-    "specification", "tree", "vector",
+    "specification", "tmp", "tree", "vector",
 ]
 
 [dependencies]

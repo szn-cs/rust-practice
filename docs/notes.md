@@ -14,22 +14,28 @@ std::cmp::{Eq, PartialEq, Ordering, Ord}
 - .ceil/.floor()  
 - .round() 
 - .sqrt()  
+- .checked_sub/.saturating_sub/.wrapping_sub() 
 
 ## std::string::String
 - .push_str(&mut self, &str)
 - .push(&mut self, char)
+- .chars().enumerate() == .chars_indices(), .bytes()
 
 ## std::option::Option
 - .take()
 - .is_some/is_none() -> bool
+- if let Some(ref mut x) = option {}   // alternative: x; mut x; ref x; ref mut x;
+- misc:  // NOTE: instead of using the implicit method versions, same functionality can be acheived using `if let ...`
+    - .as_mut(&mut self) -> Option<&mut T>
+    - .as_ref() / as_deref()
+        [pattern] .as_ref().unwrap().next.as_ref()
 
 ## std::boxed::Box
-- .into_raw() // consume
-- .from_raw() // reclaim leaked memory
-- .as_ptr_mut() // convert
-- leak functions: leaves allocated memory on heap never deallocating them and returns *mut pointer. 
-boxed slice: 
-- .into_boxed_slice()
+- .into_raw(Box<T>) -> *mut T // consume
+- .from_raw(*mut T) -> Box<T> // reclaim leaked memory
+- misc: 
+    - as_mut(&mut self) -> &mut T
+    - leak functions: leaves allocated memory on heap never deallocating them and returns *mut pointer. 
 
 # pointers
 - std::ptr::eq(*const T, *const T) -> bool
@@ -126,6 +132,7 @@ ___
             - .swap_remove(&mut self, usize) -> T
         - .extend
             - .extend_from_slice
+        - .into_boxed_slice()
 
 ## std::collections::VecDeque
     - push_back, push_front, pop_back, pop_front 
@@ -145,7 +152,7 @@ ___
         - .into_vec
 
 ## std::collections::{HashMap, BTreeMap}
-    - insert, remove, get_mut
+    - insert, remove, get_mut(&mut self, k: &K) -> Option<&mut V>
     - misc: 
         - contains_key
         - keys, values 
@@ -158,24 +165,20 @@ ___
 - .split_at_mut
 - .copy_from_slice
 - .clone_from_slice
-- .sort_by
+- .sort_by(&mut self, F) where F: Fn(&T, &T) -> Ordering
 - .sort_by_key
-- .binary_search_by
+- .binary_search(&self, &T) -> Result<usize, usize>
+    - .binary_search_by(&self, f: F) -> Result<usize, usize> where F: FnMut(&T) -> Ordering
+    - . binary_search_key
 - .rotate_right 
 - slice::from_raw_slices(*const T, usize)
+- .as_ptr_mut() // convert
 
 ## std::collections::VecDequeue
 - .make_contiguous()
 
 
-___ 
-</br>
-
-
-conversion: 
-- .try_into().expect("")
-
-std::iter::Iterator
+# std::iter::Iterator
     - .extend
     - .flat_map
     - .drain 
@@ -192,14 +195,22 @@ std::iter::Iterator
     - .take
     - .chain
     - .for_each
-std::iter::from_fn
+    - .zip
+## std::iter::from_fn
     - .take()
     - .take_while()
 
-ParialOrd: 
-- .parial_cmp -> Ordering
+___ 
+</br>
+
+conversion: 
+- .try_into().expect("")
+
+
 Ord: 
 - .cmp -> Ordering
+- ParialOrd: 
+    - .parial_cmp -> Ordering
 
 # macros
 panic!() / unreachable!()
@@ -247,3 +258,4 @@ let x = rand::random::<usize>();
 - division of integers without convertion: let (remaining, fraction) = (end * 1000 / 2 % 1000, end / 2);
 - where V: ?Sized  // where V doesn't have to be sized, useful if V is used as reference &V 
 - `let title_text = title.text().trim();`: FAILS because nothing binds text() String to context, thus trim() references temporary value in statement.
+- Rust allows immutable moves: Ownership transfer is not mutation. Original owner can no longer access data, but data remains unchanged.

@@ -4,13 +4,17 @@
 pub mod impl_1 {
     use std::collections::HashMap;
 
-    const SUFFIX_LETTER: char = '*';
+    const SUFFIX_LETTER: char = '*'; // either through relying on enum or suffix letter
 
-    pub enum NODE {
+    pub enum Node {
         LETTER {
             value: char,
-            children: HashMap<char, Box<NODE>>,
+            children: HashMap<char, Box<Node>>,
         },
-        SUFFIX(), // represents end of word
+        SUFFIX(String), // represents end of word (stores the word for easy access)
+    }
+
+    pub struct Trie {
+        root: Node,
     }
 }
