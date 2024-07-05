@@ -119,18 +119,55 @@ ___
 
 # std::thread::{park/unpark, scope, spawn, sleep}
 
+
+## std::iter::Iterator
+    - .extend
+    - .flat_map
+    - .drain 
+    - .map
+    - .find
+    - .retain 
+    - .position
+    - .and_then
+    - .clone
+    - .collect
+    - .filter_map
+    - .fold
+    - .repeat
+    - .take
+    - .chain
+    - .for_each
+    - .zip
+## std::iter::from_fn
+    - .take()
+    - .take_while()
+
+## slice
+- .split_at_mut
+- .copy_from_slice
+- .clone_from_slice
+- .sort_by(&mut self, F) where F: Fn(&T, &T) -> Ordering
+- .sort_by_key
+- .binary_search(&self, &T) -> Result<usize, usize>
+    - .binary_search_by(&self, f: F) -> Result<usize, usize> where F: FnMut(&T) -> Ordering
+    - . binary_search_key
+- .rotate_right 
+- slice::from_raw_slices(*const T, usize)
+- .as_ptr_mut() // convert
+
 # std::collections::{VecDeque, LinkedList, BinaryHeap, HashMap, BTreeMap, HashSet, BTreeSet};
 - std::collections::hash_map::DefaultHasher; 
 - std::ops::{Index, IndexMut};  // implement indexing
 
-## std::vec::Vec
+## std::vec::Vec     -Deref-> slice
     - .push(&mut self, T)
     - .pop(&mut self) -> Option<T>
     - misc: 
+        - .append(&mut self, other: &mut Vec<T>)
         - .insert(&mut self, usize, T)              // shift insert
         - .remove(&mut self, usize) -> T                 //  shift remove
             - .swap_remove(&mut self, usize) -> T
-        - .extend
+        - .extend(&mut self, IntoIter<&T>)      // iterator based
             - .extend_from_slice
         - .into_boxed_slice()
 
@@ -152,7 +189,9 @@ ___
         - .into_vec
 
 ## std::collections::{HashMap, BTreeMap}
-    - insert, remove, get_mut(&mut self, k: &K) -> Option<&mut V>
+    - .insert()
+    - .remove()
+    - .get_mut(&mut self, k: &K) -> Option<&mut V>
     - misc: 
         - contains_key
         - keys, values 
@@ -161,44 +200,8 @@ ___
 ## std::collections::{HashSet, BTreeSet}
     - insert, remove, contains
 
-## slice
-- .split_at_mut
-- .copy_from_slice
-- .clone_from_slice
-- .sort_by(&mut self, F) where F: Fn(&T, &T) -> Ordering
-- .sort_by_key
-- .binary_search(&self, &T) -> Result<usize, usize>
-    - .binary_search_by(&self, f: F) -> Result<usize, usize> where F: FnMut(&T) -> Ordering
-    - . binary_search_key
-- .rotate_right 
-- slice::from_raw_slices(*const T, usize)
-- .as_ptr_mut() // convert
-
 ## std::collections::VecDequeue
 - .make_contiguous()
-
-
-# std::iter::Iterator
-    - .extend
-    - .flat_map
-    - .drain 
-    - .map
-    - .find
-    - .retain 
-    - .position
-    - .and_then
-    - .clone
-    - .collect
-    - .filter_map
-    - .fold
-    - .repeat
-    - .take
-    - .chain
-    - .for_each
-    - .zip
-## std::iter::from_fn
-    - .take()
-    - .take_while()
 
 ___ 
 </br>
@@ -259,3 +262,6 @@ let x = rand::random::<usize>();
 - where V: ?Sized  // where V doesn't have to be sized, useful if V is used as reference &V 
 - `let title_text = title.text().trim();`: FAILS because nothing binds text() String to context, thus trim() references temporary value in statement.
 - Rust allows immutable moves: Ownership transfer is not mutation. Original owner can no longer access data, but data remains unchanged.
+- Does `*` or `.` operators move the value they dereference? The * and . operators act like 'structural navigation' operators. They don't typically do anything except help you specify what you're trying to bind to. Additionally, match expressions also take place expressions as input, so even they don't have to move out of their input (`match *x { }` doesn't move value referenced by x). 
+    - https://stackoverflow.com/a/70551391 
+    - "mut ref mut" future syntax == let mut x: &mut T; 
