@@ -115,7 +115,8 @@ ___
 # std::sync::{Arc, Weak}
 - similar to std::rc::{Rc, Weak}; 
 
-# std::sync::{Mutex, MutexGuard, RwLock, mpsc}
+# std::sync::{Mutex, MutexGuard, RwLock, Condvar}
+- std::sync::mpsc::{channel, Sender, Receiver}
 
 # std::thread::{park/unpark, scope, spawn, sleep}
 
@@ -138,9 +139,14 @@ ___
     - .chain
     - .for_each
     - .zip
-## std::iter::from_fn
     - .take()
     - .take_while()
+    - .rev()
+## std::iter::from_fn
+
+## String
+- .split("/")
+
 
 ## slice
 - .split_at_mut
@@ -154,6 +160,7 @@ ___
 - .rotate_right 
 - slice::from_raw_slices(*const T, usize)
 - .as_ptr_mut() // convert
+- .swap()
 
 # std::collections::{VecDeque, LinkedList, BinaryHeap, HashMap, BTreeMap, HashSet, BTreeSet};
 - std::collections::hash_map::DefaultHasher; 
