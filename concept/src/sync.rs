@@ -1,14 +1,15 @@
 use std::io::prelude::*;
-use std::net::{Shutdown, TcpStream};
+use std::net::{self, Shutdown, TcpStream};
 
-fn sync_request() -> std::io::Result<String> {
-    let host = "8.8.8.8";
-    let path = "";
-    let mut socket = TcpStream::connect((host, 80))?;
+pub fn sync_request() -> std::io::Result<String> {
+    let host = "example.com";
+    let path = "/";
+    let port = 80;
+    let mut socket = TcpStream::connect((host, port))?;
 
-    let request = format!("GET {} HTTP/1.1\r\nHost: {}\r\n\r\n", path, host);
+    let request = format!("GET {path} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n",);
     socket.write_all(request.as_bytes())?;
-    socket.shutdown(Shutdown::Write)?;
+    socket.shutdown(net::Shutdown::Write)?;
 
     let mut response = String::new();
     socket.read_to_string(&mut response)?;
@@ -22,6 +23,7 @@ mod tests {
 
     #[test]
     fn try_connection() {
-        let _ = sync_request();
+        let r = sync_request();
+        println!("{}", r.unwrap());
     }
 }
