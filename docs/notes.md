@@ -1,13 +1,13 @@
 std::fmt::{Debug, Display, Formatter};
 std::ops::{Fn, FnMut, FnOnce}
 -   std::cmp::{min/max};
+std::ops::{Drop, Deref<Target = T>}
 std::marker::{PhantomData, Copy, Send /*mutable access*/, Sync /*immutable access*/, Sized}; 
 std::mem::{replace, swap, take, size_of, align_of, drop}
 std::alloc::Layout::{new, array} // layout of mem passed to allocator
 std::alloc::{dealloc(*mut u8, Layout), alloc(Layout)}
 std::borrow::Borrow; 
 std::iter::{Iterator, IntoIterator};  
-std::ops::{Drop, Deref<Target = T>}
 std::cmp::{Eq, PartialEq, Ordering, Ord}
 
 # f64/f32 primitive
@@ -118,8 +118,15 @@ ___
 # std::sync::{Mutex, MutexGuard, RwLock, Condvar}
 - std::sync::mpsc::{channel, Sender, Receiver}
 
+# std::sync::atomic::{Ordering::{SeqCst}, AtomicISize, AtomicBool, ...}
+
 # std::thread::{park/unpark, scope, spawn, sleep}
 
+# carets: 
+- async-std
+- Rayon / Crossbeam
+
+# std::task  &   std::future
 
 ## std::iter::Iterator
     - .extend
@@ -135,11 +142,10 @@ ___
     - .filter_map
     - .fold
     - .repeat
-    - .take
     - .chain
     - .for_each
     - .zip
-    - .take()
+    - .take
     - .take_while()
     - .rev()
 ## std::iter::from_fn
@@ -177,11 +183,13 @@ ___
         - .extend(&mut self, IntoIter<&T>)      // iterator based
             - .extend_from_slice
         - .into_boxed_slice()
+        - vec.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
 
 ## std::collections::VecDeque
     - push_back, push_front, pop_back, pop_front 
     - misc: 
         - front_mut/back_mut
+        - .make_contiguous()
 
 ## std::collections::LinkedList
     - push_back, push_front, pop_back, pop_front
@@ -206,9 +214,6 @@ ___
 
 ## std::collections::{HashSet, BTreeSet}
     - insert, remove, contains
-
-## std::collections::VecDequeue
-- .make_contiguous()
 
 ___ 
 </br>

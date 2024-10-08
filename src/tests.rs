@@ -12,3 +12,5 @@ mod hash_map;
 mod binary_heap;
 
 mod sort;
+
+mod practice;
