@@ -7,4 +7,5 @@ pub mod generic_trait;
 pub mod hashmap_api;
 pub mod iterator;
 pub mod reference_counting;
+pub mod sync;
 pub mod unsafe_pionter;
