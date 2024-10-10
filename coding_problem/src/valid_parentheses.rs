@@ -28,7 +28,7 @@ pub fn validate_parentheses(s: &str) -> bool {
             } else if let Some(p) = PAR_CLOSE.iter().position(|&x| x == c) {
                 (PAR::Close, p)
             } else {
-                unreachable!("parentheses only expected.");
+                unreachable!("expecting parentheses characters only.");
             }
         };
 
