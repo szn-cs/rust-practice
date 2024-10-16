@@ -8,4 +8,5 @@ mod spiral_matrix;
 mod sum3;
 mod top_k_most_frequent;
 mod two_sum;
+mod unique_path;
 mod valid_parentheses;

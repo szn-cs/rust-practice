@@ -8,4 +8,5 @@ pub mod hashmap_api;
 pub mod iterator;
 pub mod reference_counting;
 pub mod sync;
+pub mod twoD_to_slices;
 pub mod unsafe_pionter;
