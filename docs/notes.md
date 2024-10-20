@@ -42,7 +42,7 @@ std::cmp::{Eq, PartialEq, Ordering, Ord}
 - std::ptr::{NonNull, null()/null_mut(), drop_in_place(*mut T)}; //  matching *const T and *mut T types 
 
 ## std::ptr::NonNull
-- Option<NonNull<T>> // None = discriminant 0x0 value of NonNull
+- Option<NonNull<T>> // None = discriminant 0x0 value of NonNull for Option::None
 - .as_ptr() -> *mut T
 - .as_ref()/.as_mut()
 - .write()
