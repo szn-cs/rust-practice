@@ -1,4 +1,4 @@
-use single_linked_list::sinlge_linked_list_pointer::SingleLinkedList as L;
+use datastructure::sinlge_linked_list_pointer::SingleLinkedList as L;
 use specification::datastructure::linked_list::minimal::SingleLinkedList;
 
 use std::option;

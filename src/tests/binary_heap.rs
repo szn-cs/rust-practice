@@ -1,4 +1,4 @@
-use binary_heap::BinaryHeap;
+use datastructure::binary_heap::BinaryHeap;
 use specification::datastructure::binary_heap::minimal::BinaryHeap as Spec;
 
 #[test]

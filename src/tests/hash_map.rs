@@ -1,5 +1,5 @@
 mod impl1 {
-    use hash_map::hash_map_1::{HashMap, Hashable};
+    use datastructure::hash_map::hash_map_1::{HashMap, Hashable};
     use specification::datastructure::hash_map::minimal::HashMap as Spec;
 
     #[test]

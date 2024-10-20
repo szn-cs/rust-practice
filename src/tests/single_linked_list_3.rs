@@ -1,5 +1,5 @@
+use datastructure::single_linked_list_minimal::SingleLinkedList as L;
 use specification::datastructure::linked_list::minimal::SingleLinkedList;
-use single_linked_list::single_linked_list_minimal::SingleLinkedList as L;
 
 use std::option;
 

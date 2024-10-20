@@ -3,32 +3,32 @@ use specification::algorithm::sort::{sort, Sorter};
 #[test]
 fn bubble_sort_test() {
     {
-        use sort::bubble_sort::impl_1::BubbleSorter;
+        use algorithm::sort::bubble_sort::impl_1::BubbleSorter;
         let mut l = vec![5, 4, 3, 2, 1];
         sort::<_, BubbleSorter, _>(&mut l[..], |&a, &b| a > b);
         BubbleSorter::sort(&mut l[..], |&a, &b| a > b);
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
     {
-        use sort::bubble_sort::impl_2::BubbleSorter;
+        use algorithm::sort::bubble_sort::impl_2::BubbleSorter;
         let mut l = vec![5, 4, 3, 2, 1];
         sort::<_, BubbleSorter, _>(&mut l[..], |&a, &b| a > b);
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
     {
-        use sort::bubble_sort::impl_3::BubbleSorter;
+        use algorithm::sort::bubble_sort::impl_3::BubbleSorter;
         let mut l = vec![5, 4, 3, 2, 1];
         sort::<_, BubbleSorter, _>(&mut l[..], |&a, &b| a > b);
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
     {
-        use sort::bubble_sort::impl_4::BubbleSorter;
+        use algorithm::sort::bubble_sort::impl_4::BubbleSorter;
         let mut l = vec![5, 4, 3, 2, 1];
         sort::<_, BubbleSorter, _>(&mut l[..], |&a, &b| a > b);
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
     {
-        use sort::bubble_sort::impl_5::BubbleSorter;
+        use algorithm::sort::bubble_sort::impl_5::BubbleSorter;
         let mut l = vec![5, 4, 3, 2, 1];
         sort::<_, BubbleSorter, _>(&mut l[..], |&a, &b| a > b);
         assert_eq![l, vec![1, 2, 3, 4, 5]];
@@ -38,19 +38,19 @@ fn bubble_sort_test() {
 #[test]
 fn insertion_sort_test() {
     {
-        use sort::insertion_sort::impl_1::InsertionSort;
+        use algorithm::sort::insertion_sort::impl_1::InsertionSort;
         let mut l = vec![5, 4, 3, 2, 1];
         sort::<_, InsertionSort, _>(&mut l[..], |&a, &b| a > b);
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
     {
-        use sort::insertion_sort::impl_2::InsertionSort;
+        use algorithm::sort::insertion_sort::impl_2::InsertionSort;
         let mut l = vec![5, 4, 3, 2, 1];
         sort::<_, InsertionSort, _>(&mut l[..], |&a, &b| a > b);
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
     {
-        use sort::insertion_sort::impl_3::InsertionSort;
+        use algorithm::sort::insertion_sort::impl_3::InsertionSort;
         let mut l = vec![5, 4, 3, 2, 1];
         sort::<_, InsertionSort, _>(&mut l[..], |&a, &b| a > b);
         assert_eq![l, vec![1, 2, 3, 4, 5]];
@@ -60,13 +60,13 @@ fn insertion_sort_test() {
 #[test]
 fn selection_sort_test() {
     {
-        use sort::selection_sort::impl_1::SelectionSort;
+        use algorithm::sort::selection_sort::impl_1::SelectionSort;
         let mut l = vec![5, 4, 3, 2, 1];
         sort::<_, SelectionSort, _>(&mut l[..], |&a, &b| a > b);
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
     {
-        use sort::selection_sort::impl_2::SelectionSort;
+        use algorithm::sort::selection_sort::impl_2::SelectionSort;
         let mut l = vec![5, 4, 3, 2, 1];
         sort::<_, SelectionSort, _>(&mut l[..], |&a, &b| a > b);
         assert_eq![l, vec![1, 2, 3, 4, 5]];
@@ -76,14 +76,14 @@ fn selection_sort_test() {
 #[test]
 fn quick_sort_test() {
     {
-        use sort::quick_sort::impl_1::QuickSort;
+        use algorithm::sort::quick_sort::impl_1::QuickSort;
         let mut l = vec![5, 4, 3, 2, 1];
         // sort::<_, QuickSort, _>(&mut l[..], |&a, &b| a > b);
         QuickSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
     {
-        use sort::quick_sort::impl_2::QuickSort;
+        use algorithm::sort::quick_sort::impl_2::QuickSort;
         let mut l = vec![5, 4, 3, 2, 1];
         // sort::<_, QuickSort, _>(&mut l[..], |&a, &b| a > b);
         QuickSort::sort(&mut l[..], &(|&a, &b| a > b));
@@ -91,7 +91,7 @@ fn quick_sort_test() {
     }
     {
         // check for overflow
-        use sort::quick_sort::impl_2::QuickSort;
+        use algorithm::sort::quick_sort::impl_2::QuickSort;
         let mut l = vec![0, 4, 3, 2, 1];
         // sort::<_, QuickSort, _>(&mut l[..], |&a, &b| a > b);
         QuickSort::sort(&mut l[..], &(|&a, &b| a > b));
@@ -99,7 +99,7 @@ fn quick_sort_test() {
     }
     {
         // check for overflow
-        use sort::quick_sort::impl_3::QuickSort;
+        use algorithm::sort::quick_sort::impl_3::QuickSort;
         let mut l = vec![0, 4, 3, 2, 1];
         // sort::<_, QuickSort, _>(&mut l[..], |&a, &b| a > b);
         QuickSort::sort(&mut l[..], &(|&a, &b| a > b));
@@ -107,7 +107,7 @@ fn quick_sort_test() {
     }
     {
         // check for overflow
-        use sort::quick_sort::impl_4::QuickSort;
+        use algorithm::sort::quick_sort::impl_4::QuickSort;
         let mut l = vec![0, 4, 3, 2, 1];
         // sort::<_, QuickSort, _>(&mut l[..], |&a, &b| a > b);
         QuickSort::sort(&mut l[..], &(|&a, &b| a > b));
@@ -118,21 +118,21 @@ fn quick_sort_test() {
 #[test]
 fn merge_sort_test() {
     {
-        use sort::merge_sort::impl_1::MergeSort;
+        use algorithm::sort::merge_sort::impl_1::MergeSort;
         let mut l = vec![5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
     {
-        use sort::merge_sort::impl_2::MergeSort;
+        use algorithm::sort::merge_sort::impl_2::MergeSort;
         let mut l = vec![5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
     {
-        use sort::merge_sort::impl_3::MergeSort;
+        use algorithm::sort::merge_sort::impl_3::MergeSort;
         let mut l = vec![5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
@@ -140,21 +140,21 @@ fn merge_sort_test() {
     }
 
     {
-        use sort::merge_sort::impl_4::MergeSort;
+        use algorithm::sort::merge_sort::impl_4::MergeSort;
         let mut l = vec![8, 7, 6, 5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5, 6, 7, 8]];
     }
     {
-        use sort::merge_sort::impl_4::MergeSort;
+        use algorithm::sort::merge_sort::impl_4::MergeSort;
         let mut l = vec![7, 6, 5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5, 6, 7]];
     }
     {
-        use sort::merge_sort::impl_4::MergeSort;
+        use algorithm::sort::merge_sort::impl_4::MergeSort;
         let mut l = vec![9, 8, 7, 6, 5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
@@ -162,28 +162,28 @@ fn merge_sort_test() {
     }
 
     {
-        use sort::merge_sort::impl_5::MergeSort;
+        use algorithm::sort::merge_sort::impl_5::MergeSort;
         let mut l = vec![5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
     {
-        use sort::merge_sort::impl_5::MergeSort;
+        use algorithm::sort::merge_sort::impl_5::MergeSort;
         let mut l = vec![6, 5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5, 6]];
     }
     {
-        use sort::merge_sort::impl_5::MergeSort;
+        use algorithm::sort::merge_sort::impl_5::MergeSort;
         let mut l = vec![8, 7, 6, 5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5, 6, 7, 8]];
     }
     {
-        use sort::merge_sort::impl_5::MergeSort;
+        use algorithm::sort::merge_sort::impl_5::MergeSort;
         let mut l = vec![9, 8, 7, 6, 5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
@@ -191,28 +191,28 @@ fn merge_sort_test() {
     }
 
     {
-        use sort::merge_sort::impl_6::MergeSort;
+        use algorithm::sort::merge_sort::impl_6::MergeSort;
         let mut l = vec![5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5]];
     }
     {
-        use sort::merge_sort::impl_6::MergeSort;
+        use algorithm::sort::merge_sort::impl_6::MergeSort;
         let mut l = vec![6, 5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5, 6]];
     }
     {
-        use sort::merge_sort::impl_6::MergeSort;
+        use algorithm::sort::merge_sort::impl_6::MergeSort;
         let mut l = vec![8, 7, 6, 5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));
         assert_eq![l, vec![1, 2, 3, 4, 5, 6, 7, 8]];
     }
     {
-        use sort::merge_sort::impl_6::MergeSort;
+        use algorithm::sort::merge_sort::impl_6::MergeSort;
         let mut l = vec![9, 8, 7, 6, 5, 4, 3, 2, 1];
         // sort::<_, MergeSort, _>(&mut l[..], |&a, &b| a > b);
         MergeSort::sort(&mut l[..], &(|&a, &b| a > b));

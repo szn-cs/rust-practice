@@ -1,7 +1,10 @@
 [package]
-name = "sort"
+name = "datastructure"
 version = "0.1.0"
 edition = "2021"
+
+[toolchain]
+channel = "nightly"
 
 [dependencies]
 specification = { path = "../specification" }

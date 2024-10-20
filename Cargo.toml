@@ -1,25 +1,25 @@
 [package]
-name = "rust_practice"
+name = "rust-practice"
 version = "0.1.0"
 edition = "2021"
+
+[workspace]
+members = [
+    "coding_problem",
+    "concept",
+    "package",
+    "algorithm",
+    "specification",
+    "tmp",
+    "datastructure",
+]
 
 [toolchain]
 channel = "nightly"
 
-[workspace]
-members = [
-    "binary_heap", "coding_problem",
-    "concept", "graph",
-    "hash_map", "prefix_tree",
-    "single_linked_list",
-    "sort",
-    "specification", "tmp", "tree", "vector",
-]
-
+# dependencies are automatically added as members
 [dependencies]
-single_linked_list = { path = "single_linked_list" }
+datastructure = { path = "datastructure" }
 concept = { path = "concept" }
 specification = { path = "specification" }
-hash_map = { path = "hash_map" }
-binary_heap = { path = "binary_heap" }
-sort = { path = "sort" }
+algorithm = { path = "algorithm" }
