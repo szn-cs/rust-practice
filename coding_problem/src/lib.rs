@@ -4,6 +4,7 @@ mod binary_search;
 mod fibunnaci;
 mod k_maximum_element;
 mod linked_list_kth_element;
+mod merge_linked_lists;
 mod queue_using_stacks;
 mod remove_zero_sum_nodes;
 mod spiral_matrix;
