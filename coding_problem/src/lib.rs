@@ -2,6 +2,7 @@
 
 mod binary_search;
 mod fibunnaci;
+mod generate_parenthesis;
 mod k_maximum_element;
 mod linked_list_kth_element;
 mod merge_linked_lists;
