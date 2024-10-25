@@ -1,6 +1,10 @@
+#![feature(thread_id_value)]
+#![feature(future_join)]
+
 // pub mod cell;
 // pub mod inherit_mutability;
 // pub mod refcell;
+pub mod asynchronous;
 pub mod cell;
 pub mod custom_range;
 pub mod generic_trait;
