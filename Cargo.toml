@@ -12,6 +12,7 @@ members = [
     "specification",
     "tmp",
     "datastructure",
+	"package" 
 ]
 
 [toolchain]

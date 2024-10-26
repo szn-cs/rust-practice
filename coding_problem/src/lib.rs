@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 mod binary_search;
+mod binary_tree_depth;
 mod fibunnaci;
 mod generate_parenthesis;
 mod k_maximum_element;
