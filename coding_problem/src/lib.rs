@@ -5,6 +5,7 @@ mod binary_tree_depth;
 mod fibunnaci;
 mod generate_parenthesis;
 mod k_maximum_element;
+mod linked_list_intersection;
 mod linked_list_kth_element;
 mod merge_linked_lists;
 mod queue_using_stacks;
