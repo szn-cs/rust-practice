@@ -8,6 +8,7 @@ mod k_maximum_element;
 mod linked_list_intersection;
 mod linked_list_kth_element;
 mod merge_linked_lists;
+mod missing_positive_num;
 mod queue_using_stacks;
 mod remove_zero_sum_nodes;
 mod spiral_matrix;
