@@ -7,6 +7,7 @@
 pub mod asynchronous;
 pub mod cell;
 pub mod custom_range;
+pub mod from_trait;
 pub mod generic_trait;
 pub mod hashmap_api;
 pub mod iterator;
