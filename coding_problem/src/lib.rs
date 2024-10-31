@@ -7,6 +7,7 @@ mod generate_parenthesis;
 mod k_maximum_element;
 mod linked_list_intersection;
 mod linked_list_kth_element;
+mod meeting_rooms;
 mod merge_linked_lists;
 mod missing_positive_num;
 mod queue_using_stacks;
