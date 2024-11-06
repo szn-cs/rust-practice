@@ -12,6 +12,7 @@ mod merge_linked_lists;
 mod missing_positive_num;
 mod queue_using_stacks;
 mod remove_zero_sum_nodes;
+mod sort_colors;
 mod spiral_matrix;
 mod sum3;
 mod top_k_most_frequent;
