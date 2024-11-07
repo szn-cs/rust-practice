@@ -10,6 +10,7 @@ mod linked_list_kth_element;
 mod meeting_rooms;
 mod merge_linked_lists;
 mod missing_positive_num;
+mod num_islands;
 mod queue_using_stacks;
 mod remove_zero_sum_nodes;
 mod sort_colors;
