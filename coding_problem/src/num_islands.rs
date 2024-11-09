@@ -4,7 +4,7 @@
  */
 
 /**
- *  O(n)T; O(1)S if stack DS is used; n = # of elements in grid[r][c]
+ *  O(n)T; O(log n)S if stack DS is used; n = # of elements in grid[r][c]
  */
 mod impl_1 {
     pub fn count_islands(grid: &mut Vec<Vec<usize>>) -> usize {
