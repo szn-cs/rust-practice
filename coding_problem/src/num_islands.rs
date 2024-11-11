@@ -40,7 +40,7 @@ mod impl_1 {
     }
 
     fn dfs_sink_island(grid: &mut Vec<Vec<usize>>, r: usize, c: usize) {
-        grid[r][c] = 1;
+        grid[r][c] = 0;
 
         let ROW = grid.len();
         let COL = grid[0].len();
@@ -148,6 +148,11 @@ mod impl_2 {
                     continue;
                 }
 
+                if seen.contains(&neighbor) {
+                    continue;
+                }
+
+                seen.insert(neighbor);
                 stack.push((neighbor.0, neighbor.1));
             }
         }
