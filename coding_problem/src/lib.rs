@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+mod balanced_tree;
 mod binary_search;
 mod binary_tree_depth;
 mod elements_at_level_in_binary_tree;
