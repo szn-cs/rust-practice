@@ -4,6 +4,7 @@ mod balanced_tree;
 mod binary_search;
 mod binary_tree_depth;
 mod count_unival_subtrees;
+mod depth_binary_tree;
 mod elements_at_level_in_binary_tree;
 mod fibunnaci;
 mod generate_parenthesis;
