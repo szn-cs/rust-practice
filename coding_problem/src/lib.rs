@@ -8,6 +8,7 @@ mod depth_binary_tree;
 mod elements_at_level_in_binary_tree;
 mod fibunnaci;
 mod generate_parenthesis;
+mod group_word_anagrams;
 mod k_maximum_element;
 mod linked_list_intersection;
 mod linked_list_kth_element;
