@@ -10,6 +10,7 @@ std::borrow::Borrow;
 std::iter::{Iterator, IntoIterator};  
 std::cmp::{Eq, PartialEq, Ordering, Ord}
 
+
 # f64/f32 primitive
 - .ceil/.floor()  
 - .round() 
@@ -277,3 +278,16 @@ let x = rand::random::<usize>();
 - Does `*` or `.` operators move the value they dereference? The * and . operators act like 'structural navigation' operators. They don't typically do anything except help you specify what you're trying to bind to. Additionally, match expressions also take place expressions as input, so even they don't have to move out of their input (`match *x { }` doesn't move value referenced by x). 
     - https://stackoverflow.com/a/70551391 
     - "mut ref mut" future syntax == let mut x: &mut T; 
+
+
+___
+
+# EXTENDED
+    - rust futures are state machines namely Poll::{Ready, Pending}; 
+
+std::future::Future; 
+std::pin::Pin; 
+use std::task::{Context, Poll};
+std::time::{Duration, Instant};
+
+use tokio::sync::Notify;
