@@ -10,9 +10,8 @@ members = [
     "package",
     "algorithm",
     "specification",
-    "tmp",
     "datastructure",
-	"package" 
+    "package",
 ]
 
 [toolchain]

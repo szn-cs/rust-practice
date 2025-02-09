@@ -269,7 +269,7 @@ let x = rand::random::<usize>();
     - heap sort: delete elements and place them in the freed cell will result in sorted elements.
 - for a sharable type to be sync it has to be send. Rules: if variable can be mutably referenced (& ops like move ownership, drop, mutate) from a thread other than the creating one => Send; If for a variable is allowed to make immutable parallel access from several threads => Sync. https://www.youtube.com/watch?v=eRxqX5_UxaY 
 - &mut T isn't allowed to be aliased. 
-- variane := defines mechanism to devise wether one type can be downgraded into another, taking into account lifetimes of the parameters, with relations of subtypes.
+- variance := defines mechanism to devise wether one type can be downgraded into another, taking into account lifetimes of the parameters, with relations of subtypes.
     - It defines which lifetimes can be downgraded in place of arguemnts or upgraded for return parameters in functions for example. 
 - division of integers without convertion: let (remaining, fraction) = (end * 1000 / 2 % 1000, end / 2);
 - where V: ?Sized  // where V doesn't have to be sized, useful if V is used as reference &V 

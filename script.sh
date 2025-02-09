@@ -2,8 +2,9 @@
 
 test() {
     RUSTFLAGS=-Awarnings cargo test tests::sort::quick_sort_test -- --nocapture
-    cargo test -p concept iterator::test_zip_iterator
+    cargo +nightly test -p concept iterator::test_zip_iterator
     cargo check
+    cargo +nightly test -p package tests::tokio -- --nocapture
 }
 
 provision() { 
